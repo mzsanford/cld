@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
                                           normalized_score3,
                                           &text_bytes,
                                           &is_reliable);
-    printf("LANG=%s\n", LanguageName(lang));
+    printf("----[ Text (detected: %s) ]----\n%s\n", LanguageName(lang), src);
 
     src = kTeststr_ks;
     lang = CompactLangDet::DetectLanguage(0,
@@ -91,5 +91,5 @@ int main(int argc, char **argv) {
                                           normalized_score3,
                                           &text_bytes,
                                           &is_reliable);
-    printf("LANG=%s\n", LanguageName(lang));
+	printf("----[ Text (detected: %s) ]----\n%s\n", LanguageName(lang), src);
 }

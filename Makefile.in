@@ -34,7 +34,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = .
-DIST_COMMON = README $(am__configure_deps) $(noinst_HEADERS) \
+DIST_COMMON = README $(am__configure_deps) $(baseinclude_HEADERS) \
+	$(encinclude_HEADERS) $(encprotoinclude_HEADERS) \
+	$(encwininclude_HEADERS) $(langinclude_HEADERS) \
+	$(langprotoinclude_HEADERS) $(noinst_HEADERS) \
 	$(pkginclude_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(top_srcdir)/configure AUTHORS COPYING \
 	ChangeLog INSTALL NEWS TODO config.guess config.sub depcomp \
@@ -54,6 +57,10 @@ am__vpath_adj = case $$p in \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(pkglibdir)" \
+	"$(DESTDIR)$(baseincludedir)" "$(DESTDIR)$(encincludedir)" \
+	"$(DESTDIR)$(encprotoincludedir)" \
+	"$(DESTDIR)$(encwinincludedir)" "$(DESTDIR)$(langincludedir)" \
+	"$(DESTDIR)$(langprotoincludedir)" \
 	"$(DESTDIR)$(pkgincludedir)"
 pkglibLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(pkglib_LTLIBRARIES)
@@ -87,8 +94,17 @@ CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libcld_la_SOURCES)
 DIST_SOURCES = $(libcld_la_SOURCES)
+baseincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+encincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+encprotoincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+encwinincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+langincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+langprotoincludeHEADERS_INSTALL = $(INSTALL_HEADER)
 pkgincludeHEADERS_INSTALL = $(INSTALL_HEADER)
-HEADERS = $(noinst_HEADERS) $(pkginclude_HEADERS)
+HEADERS = $(baseinclude_HEADERS) $(encinclude_HEADERS) \
+	$(encprotoinclude_HEADERS) $(encwininclude_HEADERS) \
+	$(langinclude_HEADERS) $(langprotoinclude_HEADERS) \
+	$(noinst_HEADERS) $(pkginclude_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -220,7 +236,19 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = gnu
 AM_CPPFLAGS = -I. -Ibase -DCLD_WINDOWS
 pkglib_LTLIBRARIES = libcld.la 
-pkginclude_HEADERS = encodings/compact_lang_det/compact_lang_det.h
+pkginclude_HEADERS = encodings/compact_lang_det/*.h
+langincludedir = $(includedir)/cld/languages/public
+langinclude_HEADERS = languages/public/*.h
+langprotoincludedir = $(includedir)/cld/languages/proto
+langprotoinclude_HEADERS = languages/proto/*.h
+encincludedir = $(includedir)/cld/encodings/compact_lang_det
+encinclude_HEADERS = encodings/compact_lang_det/*.h
+encwinincludedir = $(includedir)/cld/encodings/compact_lang_det/win
+encwininclude_HEADERS = encodings/compact_lang_det/win/*.h
+encprotoincludedir = $(includedir)/cld/encodings/proto
+encprotoinclude_HEADERS = encodings/proto/*.h
+baseincludedir = $(includedir)/cld/base
+baseinclude_HEADERS = base/*.h
 noinst_HEADERS = 
 libcld_la_SOURCES = encodings/compact_lang_det/cldutil.cc \
 	encodings/compact_lang_det/cldutil_dbg_empty.cc \
@@ -497,6 +525,108 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
+install-baseincludeHEADERS: $(baseinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(baseincludedir)" || $(MKDIR_P) "$(DESTDIR)$(baseincludedir)"
+	@list='$(baseinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(baseincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(baseincludedir)/$$f'"; \
+	  $(baseincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(baseincludedir)/$$f"; \
+	done
+
+uninstall-baseincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(baseinclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(baseincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(baseincludedir)/$$f"; \
+	done
+install-encincludeHEADERS: $(encinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(encincludedir)" || $(MKDIR_P) "$(DESTDIR)$(encincludedir)"
+	@list='$(encinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(encincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(encincludedir)/$$f'"; \
+	  $(encincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(encincludedir)/$$f"; \
+	done
+
+uninstall-encincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(encinclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(encincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(encincludedir)/$$f"; \
+	done
+install-encprotoincludeHEADERS: $(encprotoinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(encprotoincludedir)" || $(MKDIR_P) "$(DESTDIR)$(encprotoincludedir)"
+	@list='$(encprotoinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(encprotoincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(encprotoincludedir)/$$f'"; \
+	  $(encprotoincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(encprotoincludedir)/$$f"; \
+	done
+
+uninstall-encprotoincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(encprotoinclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(encprotoincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(encprotoincludedir)/$$f"; \
+	done
+install-encwinincludeHEADERS: $(encwininclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(encwinincludedir)" || $(MKDIR_P) "$(DESTDIR)$(encwinincludedir)"
+	@list='$(encwininclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(encwinincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(encwinincludedir)/$$f'"; \
+	  $(encwinincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(encwinincludedir)/$$f"; \
+	done
+
+uninstall-encwinincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(encwininclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(encwinincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(encwinincludedir)/$$f"; \
+	done
+install-langincludeHEADERS: $(langinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(langincludedir)" || $(MKDIR_P) "$(DESTDIR)$(langincludedir)"
+	@list='$(langinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(langincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(langincludedir)/$$f'"; \
+	  $(langincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(langincludedir)/$$f"; \
+	done
+
+uninstall-langincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(langinclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(langincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(langincludedir)/$$f"; \
+	done
+install-langprotoincludeHEADERS: $(langprotoinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(langprotoincludedir)" || $(MKDIR_P) "$(DESTDIR)$(langprotoincludedir)"
+	@list='$(langprotoinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(langprotoincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(langprotoincludedir)/$$f'"; \
+	  $(langprotoincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(langprotoincludedir)/$$f"; \
+	done
+
+uninstall-langprotoincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(langprotoinclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(langprotoincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(langprotoincludedir)/$$f"; \
+	done
 install-pkgincludeHEADERS: $(pkginclude_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(pkgincludedir)" || $(MKDIR_P) "$(DESTDIR)$(pkgincludedir)"
@@ -692,7 +822,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(pkglibdir)" "$(DESTDIR)$(pkgincludedir)"; do \
+	for dir in "$(DESTDIR)$(pkglibdir)" "$(DESTDIR)$(baseincludedir)" "$(DESTDIR)$(encincludedir)" "$(DESTDIR)$(encprotoincludedir)" "$(DESTDIR)$(encwinincludedir)" "$(DESTDIR)$(langincludedir)" "$(DESTDIR)$(langprotoincludedir)" "$(DESTDIR)$(pkgincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -741,7 +871,10 @@ info: info-am
 
 info-am:
 
-install-data-am: install-pkgincludeHEADERS
+install-data-am: install-baseincludeHEADERS install-encincludeHEADERS \
+	install-encprotoincludeHEADERS install-encwinincludeHEADERS \
+	install-langincludeHEADERS install-langprotoincludeHEADERS \
+	install-pkgincludeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -779,7 +912,11 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-pkgincludeHEADERS uninstall-pkglibLTLIBRARIES
+uninstall-am: uninstall-baseincludeHEADERS uninstall-encincludeHEADERS \
+	uninstall-encprotoincludeHEADERS \
+	uninstall-encwinincludeHEADERS uninstall-langincludeHEADERS \
+	uninstall-langprotoincludeHEADERS uninstall-pkgincludeHEADERS \
+	uninstall-pkglibLTLIBRARIES
 
 .MAKE: install-am install-strip
 
@@ -789,16 +926,23 @@ uninstall-am: uninstall-pkgincludeHEADERS uninstall-pkglibLTLIBRARIES
 	distcheck distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distcleancheck distdir \
 	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-pkgincludeHEADERS \
-	install-pkglibLTLIBRARIES install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am \
-	uninstall-pkgincludeHEADERS uninstall-pkglibLTLIBRARIES
+	install install-am install-baseincludeHEADERS install-data \
+	install-data-am install-dvi install-dvi-am \
+	install-encincludeHEADERS install-encprotoincludeHEADERS \
+	install-encwinincludeHEADERS install-exec install-exec-am \
+	install-html install-html-am install-info install-info-am \
+	install-langincludeHEADERS install-langprotoincludeHEADERS \
+	install-man install-pdf install-pdf-am \
+	install-pkgincludeHEADERS install-pkglibLTLIBRARIES install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-baseincludeHEADERS \
+	uninstall-encincludeHEADERS uninstall-encprotoincludeHEADERS \
+	uninstall-encwinincludeHEADERS uninstall-langincludeHEADERS \
+	uninstall-langprotoincludeHEADERS uninstall-pkgincludeHEADERS \
+	uninstall-pkglibLTLIBRARIES
 
 
 %Dictionary.cc %Dictionary.h:$(pkginclude_HEADERS) %LinkDef.hh

@@ -7,15 +7,11 @@ cpp_command('g++')
 $CFLAGS << ' -DCLD_WINDOWS '
 $LDFLAGS << ' -lcld '
 
-
-# Give it a name
-extension_name = 'cld'
-
 # The destination
-dir_config(extension_name)
+dir_config('cld')
 
 ## C++ cld entry point?
 # have_library('cld')
 
 # Do the work
-create_makefile(extension_name)
+create_makefile('cld_native')

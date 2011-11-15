@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jstring JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectLanguage
   (JNIEnv *, jobject, jstring);
 
+/*
+ * Class:     com_mzsanford_cld_CompactLanguageDetector
+ * Method:    detectLanguageDetails
+ * Signature: (ZZZZLjava/lang/String;)Lcom/mzsanford/cld/CompactLanguageDetector/LanguageDetectionResult;
+ */
+JNIEXPORT jobject JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectLanguageDetails
+  (JNIEnv *, jobject, jstring, jboolean, jboolean, jboolean, jboolean, jstring);
+
 #ifdef __cplusplus
 }
 #endif

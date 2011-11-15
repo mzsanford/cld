@@ -1,0 +1,17 @@
+{
+  "author": "Matt Sanford <matt@mzsanford.com> (http://mzsanford.com)",
+  "name": "cld",
+  "description": "Google Chrome Compact Language Detector",
+  "version": "0.1.0",
+  "repository": {
+    "url": ""
+  },
+  "scripts": {
+    "test": "./test.js"
+  },
+  "engines": {
+    "node": "~0.4.12"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

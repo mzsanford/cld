@@ -1,0 +1,9 @@
+
+* Critical
+** More complete result structure
+
+* Questions
+** Keep detectSync or remove?
+*** If it's kept there is some refactoring to be done
+** Options on the method or on the ctor?
+*** Both?

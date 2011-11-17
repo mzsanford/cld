@@ -30,8 +30,8 @@ Kernel configured for up to 2 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1
 Primary memory available: 3.00 gigabytes
-Default processor set: 147 tasks, 786 threads, 2 processors
-Load average: 6.16, Mach factor: 0.29
+Default processor set: 143 tasks, 734 threads, 2 processors
+Load average: 1.91, Mach factor: 0.61
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -175,7 +175,7 @@ configure:5001: checking the name lister (/usr/bin/nm) interface
 configure:5008: gcc -c -g -O2  conftest.c >&5
 configure:5011: /usr/bin/nm "conftest.o"
 configure:5014: output
-000000000000018c S _some_variable
+0000000000000188 S _some_variable
 configure:5021: result: BSD nm
 configure:5024: checking whether ln -s works
 configure:5028: result: yes
@@ -566,16 +566,16 @@ lt_cv_sys_max_cmd_len=196608
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /Users/mzsanfor/src/gcode/cld-2/missing --run aclocal-1.10'
+ACLOCAL='${SHELL} /Users/mzsanfor/src/github/cld/missing --run aclocal-1.10'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
-AMTAR='${SHELL} /Users/mzsanfor/src/gcode/cld-2/missing --run tar'
+AMTAR='${SHELL} /Users/mzsanfor/src/github/cld/missing --run tar'
 AR='ar'
 AS='as'
-AUTOCONF='${SHELL} /Users/mzsanfor/src/gcode/cld-2/missing --run autoconf'
-AUTOHEADER='${SHELL} /Users/mzsanfor/src/gcode/cld-2/missing --run autoheader'
-AUTOMAKE='${SHELL} /Users/mzsanfor/src/gcode/cld-2/missing --run automake-1.10'
+AUTOCONF='${SHELL} /Users/mzsanfor/src/github/cld/missing --run autoconf'
+AUTOHEADER='${SHELL} /Users/mzsanfor/src/github/cld/missing --run autoheader'
+AUTOMAKE='${SHELL} /Users/mzsanfor/src/github/cld/missing --run automake-1.10'
 AWK='awk'
 CC='gcc'
 CCDEPMODE='depmode=gcc3'
@@ -610,7 +610,7 @@ LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 LIPO='lipo'
 LN_S='ln -s'
 LTLIBOBJS=''
-MAKEINFO='${SHELL} /Users/mzsanfor/src/gcode/cld-2/missing --run makeinfo'
+MAKEINFO='${SHELL} /Users/mzsanfor/src/github/cld/missing --run makeinfo'
 NM='/usr/bin/nm'
 NMEDIT='nmedit'
 OBJDUMP='objdump'
@@ -662,7 +662,7 @@ host_vendor='apple'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='$(SHELL) /Users/mzsanfor/src/gcode/cld-2/install-sh'
+install_sh='$(SHELL) /Users/mzsanfor/src/github/cld/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'

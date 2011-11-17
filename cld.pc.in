@@ -1,0 +1,12 @@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: cld
+Description: Compact Language Detector
+Requires: 
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir}/cld -lcld
+Cflags: -I${includedir}/cld 

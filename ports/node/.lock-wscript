@@ -1,9 +1,9 @@
 argv = ['/usr/local/bin/node-waf', 'configure']
-blddir = '/Users/mzsanfor/src/gcode/cld-2/ports/node/build'
+blddir = '/Users/mzsanfor/src/github/cld/ports/node/build'
 commands = {'dist': 0, 'configure': True, 'distcheck': 0, 'install': 0, 'build': 0, 'clean': 0, 'distclean': 0, 'check': 0, 'uninstall': 0}
-cwd = '/Users/mzsanfor/src/gcode/cld-2/ports/node'
-environ = {'DESTINATION': '/var/folders/dw/1tlp4ncw8xl9wp008k8d90bh0000gp/T/iTerm 1.0.0.20110909 Update', 'VERSIONER_PYTHON_PREFER_32_BIT': 'no', 'SSH_AUTH_SOCK': '/tmp/launch-No6EJA/Listeners', 'SHELL': '/bin/bash', 'LOGNAME': 'mzsanfor', 'USER': 'mzsanfor', 'HOME': '/Users/mzsanfor', 'ITERM_PROFILE': 'Default', 'PATH': '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin', 'PS1': '\\u:\\W \xe2\x88\xb4 ', 'DISPLAY': '/tmp/launch-rz1Gfg/org.x:0', '_': '/usr/local/bin/node-waf', 'TERM_PROGRAM': 'iTerm.app', 'LANG': 'en_US.UTF-8', 'TERM': 'xterm-256color', 'Apple_PubSub_Socket_Render': '/tmp/launch-bq6VuD/Render', 'VERSIONER_PYTHON_VERSION': '2.7', 'SHLVL': '1', 'OLDPWD': '/Users/mzsanfor/src/gcode/cld-2', 'ANT_HOME': '/Users/mzsanfor/src/external/apache-ant-1.8.2', 'PWD': '/Users/mzsanfor/src/gcode/cld-2/ports/node', '__CF_USER_TEXT_ENCODING': '0x1F6:0:0', 'ITERM_SESSION_ID': 'w0t1p0', 'TMPDIR': '/var/folders/dw/1tlp4ncw8xl9wp008k8d90bh0000gp/T/', 'COMMAND_MODE': 'unix2003'}
+cwd = '/Users/mzsanfor/src/github/cld/ports/node'
+environ = {'DESTINATION': '/var/folders/dw/1tlp4ncw8xl9wp008k8d90bh0000gp/T/iTerm 1.0.0.20110909 Update', 'VERSIONER_PYTHON_PREFER_32_BIT': 'no', 'SSH_AUTH_SOCK': '/tmp/launch-No6EJA/Listeners', 'SHELL': '/bin/bash', 'LOGNAME': 'mzsanfor', 'USER': 'mzsanfor', 'HOME': '/Users/mzsanfor', 'ITERM_PROFILE': 'Default', 'PATH': '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin', 'PS1': '\\u:\\W \xe2\x88\xb4 ', 'DISPLAY': '/tmp/launch-rz1Gfg/org.x:0', '_': '/usr/local/bin/node-waf', 'TERM_PROGRAM': 'iTerm.app', 'LANG': 'en_US.UTF-8', 'TERM': 'xterm-256color', 'Apple_PubSub_Socket_Render': '/tmp/launch-bq6VuD/Render', 'VERSIONER_PYTHON_VERSION': '2.7', 'SHLVL': '1', 'OLDPWD': '/Users/mzsanfor/src', 'ANT_HOME': '/Users/mzsanfor/src/external/apache-ant-1.8.2', 'PWD': '/Users/mzsanfor/src/github/cld/ports/node', '__CF_USER_TEXT_ENCODING': '0x1F6:0:0', 'ITERM_SESSION_ID': 'w0t0p0', 'TMPDIR': '/var/folders/dw/1tlp4ncw8xl9wp008k8d90bh0000gp/T/', 'COMMAND_MODE': 'unix2003'}
 files = []
 hash = 0
 options = {'compile_targets': None, 'force': False, 'verbose': 0, 'nocache': False, 'progress_bar': 0, 'destdir': '', 'keep': False, 'zones': '', 'blddir': '', 'prefix': '/usr/local/', 'jobs': 2, 'srcdir': '', 'check_cxx_compiler': 'g++'}
-srcdir = '/Users/mzsanfor/src/gcode/cld-2/ports/node'
+srcdir = '/Users/mzsanfor/src/github/cld/ports/node'

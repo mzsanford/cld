@@ -1,5 +1,6 @@
 AUTOMAKE_OPTIONS          = gnu
 AM_CPPFLAGS               = -I. -Ibase -DCLD_WINDOWS
+SUBDIRS                   = . tests
 
 pkglib_LTLIBRARIES        = libcld.la 
 pkginclude_HEADERS        = encodings/compact_lang_det/*.h

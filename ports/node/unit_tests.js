@@ -32,7 +32,7 @@ exports['detect async'] = {
 	simple: function(test) {
 		test.expect(1);
 		detector.detect("I am simply English", function(result) {
-			test.equal(result, "en", "Async detection should correctly identify English without options");
+			test.equal(result.languageCode, "en", "Async detection should correctly identify English without options");
 			test.done();
 		});
 	},
@@ -40,7 +40,7 @@ exports['detect async'] = {
 	htmlText: function(test) {
 		test.expect(1);
 		detector.detect("<span>foo</span>", { html: true }, function(result) {
-			test.equal(result, "en");
+			test.equal(result.languageCode, "en");
 			test.done();
 		});
 	},
@@ -48,7 +48,7 @@ exports['detect async'] = {
 	nonHtml: function(test) {
 		test.expect(1);
 		detector.detect("<span>foo</span>", { html: false }, function(result) {
-			test.equal(result, "ut");
+			test.equal(result.languageCode, "ut");
 			test.done();
 		});
 	}

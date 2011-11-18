@@ -142,6 +142,10 @@ public:
   // TODO: More complete result info
   struct language_detect_result_t {
 	std::string language_code;
+	bool reliable;
+	double normalized_scores[3];
+    Language languages[3];
+    int percents[3];
   };
 
   struct language_detect_baton_t {
@@ -191,7 +195,6 @@ public:
 	    baton->do_pick_summary_language = optionalBooleanArg(args, options_arg_idx, "pickSummaryLanguage", false);
 	    baton->do_remove_weak_matches = optionalBooleanArg(args, options_arg_idx, "skipWeakMatches", false);
 	    // baton->tld_hint =  Persistent<String>::New(optionalStringArg(args, options_arg_idx, "tld", NULL));
-	    // End manual question
 	    baton->cb = Persistent<Function>::New(cb);
 	
 	    ld->Ref();
@@ -214,13 +217,8 @@ public:
 		tld_hint = baton->tld_hint.c_str();
 	}
 
-    bool is_reliable;
     int encoding_hint = UNKNOWN_ENCODING;
     Language language_hint = UNKNOWN_LANGUAGE;
-
-    double normalized_score3[3];
-    Language language3[3];
-    int percent3[3];
     int text_bytes;
 
     Language lang;
@@ -233,11 +231,11 @@ public:
                                           tld_hint,
                                           encoding_hint,
                                           language_hint,
-                                          language3,
-                                          percent3,
-                                          normalized_score3,
+                                          baton->result->languages,
+                                          baton->result->percents,
+                                          baton->result->normalized_scores,
                                           &text_bytes,
-                                          &is_reliable);
+                                          &baton->result->reliable);
 
     std::string lang_str(LanguageCode(lang));
 	baton->result->language_code = lang_str;
@@ -255,7 +253,24 @@ public:
 
     // Get the result information from the baton
     Local<Value> argv[1];
-    argv[0] = String::New(baton->result->language_code.c_str());
+	Local<Object> resultObject = Object::New();
+	resultObject->Set(String::New("languageCode"), String::New(baton->result->language_code.c_str()));
+	resultObject->Set(String::New("reliable"), Boolean::New(baton->result->reliable));
+
+    Handle<Array> detailArray = Array::New(3);
+	for (int i=0; i < 3; i++)
+	{
+		// Build a detail object
+		Local<Object> detailObject = Object::New();
+		std::string lang_str(LanguageCode(baton->result->languages[i]));
+		detailObject->Set(String::New("languageCode"), String::New(lang_str.c_str()));
+		detailObject->Set(String::New("normalizedScore"), Number::New(baton->result->normalized_scores[i]));
+		detailObject->Set(String::New("percentScore"), Number::New(baton->result->percents[i]));
+		// Put the result on the details array
+		detailArray->Set(i, detailObject);
+	}
+	resultObject->Set(String::New("details"), detailArray);
+	argv[0] = resultObject;
 
 
     TryCatch try_catch;

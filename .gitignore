@@ -1,5 +1,12 @@
-ports/node/build
-ports/node/build/*
-ports/node/build/.*
-.deps
-autom4te.cache
+# Autotools
+compile
+config.guess
+config.sub
+depcomp
+install-sh
+ltmain.sh
+missing
+mkinstalldirs
+
+# Ports (node)
+/ports/node/build

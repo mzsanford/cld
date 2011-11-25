@@ -1,15 +1,15 @@
-# project noname (1.0) configured on Thu Nov 17 09:38:49 2011 by
+# project noname (1.0) configured on Thu Nov 24 21:22:49 2011 by
 # waf 1.5.16 (abi 7, python 20701f0 on darwin)
 # using /usr/local/bin/node-waf configure
 #
 
 ----------------------------------------
 Setting srcdir to
-/Users/mzsanfor/src/github/cld/ports/node
+/Users/matt/src/github/cld/ports/node
 
 ----------------------------------------
 Setting blddir to
-/Users/mzsanfor/src/github/cld/ports/node/build
+/Users/matt/src/github/cld/ports/node/build
 
 ----------------------------------------
 Checking for program g++ or c++
@@ -41,4 +41,4 @@ not found
 
 ----------------------------------------
 Checking for node prefix 
-ok /usr/local/Cellar/node/0.4.12
+ok /usr/local/Cellar/node/0.6.2

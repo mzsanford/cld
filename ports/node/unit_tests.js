@@ -1,6 +1,6 @@
 
 
-var LanguageDetector = require("./build/default/languagedetector.node").LanguageDetector;
+var LanguageDetector = require("./build/Release/languagedetector.node").LanguageDetector;
 var detector = new LanguageDetector();
 
 exports['detect sync'] = {

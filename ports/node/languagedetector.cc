@@ -205,7 +205,7 @@ public:
   }
 
   // Background thread: The asynch portion
-  static int EIO_Detect(eio_req *req)
+  static void EIO_Detect(eio_req *req)
   {
     language_detect_baton_t *baton = static_cast<language_detect_baton_t *>(req->data);
     baton->result = new language_detect_result_t();
@@ -239,8 +239,6 @@ public:
 
     std::string lang_str(LanguageCode(lang));
 	baton->result->language_code = lang_str;
-
-    return 0;
   }
 
   // Main thread: The return portion after the async portion is completed

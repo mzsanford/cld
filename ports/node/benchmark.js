@@ -2,7 +2,14 @@
 var Benchmark = require("benchmark");
 var suite = new Benchmark.Suite;
 
-var LanguageDetector = require("./build/Release/languagedetector.node").LanguageDetector;
+
+var path = require('path');
+var LanguageDetector;
+if (path.existsSync("./build/Release")) {
+  LanguageDetector = require("./build/Release/languagedetector.node").LanguageDetector;
+} else {
+  LanguageDetector = require("./build/default/languagedetector.node").LanguageDetector;
+}
 var detector = new LanguageDetector();
 
 // add tests

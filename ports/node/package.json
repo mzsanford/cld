@@ -10,7 +10,8 @@
     "test": "./test.js"
   },
   "engines": {
-    "node": "~0.4.12"
+    "node": "~0.4.12",
+    "node": "~0.6"
   },
   "dependencies": {},
   "devDependencies": {

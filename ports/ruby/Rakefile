@@ -9,8 +9,8 @@ end
 task :build => :compile
 
 ## Gem packaging
-require 'rake/gempackagetask'
-Rake::GemPackageTask.new(GEMSPEC) do |pkg|
+require 'rubygems/package_task'
+Gem::PackageTask.new(GEMSPEC) do |pkg|
 end
 
 ## Testing

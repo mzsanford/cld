@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.email = ['matt@mzsanford.com']
 
   s.add_development_dependency 'rake-compiler', '0.7.6'
+
   s.extensions = ['ext/extconf.rb']
   s.require_paths = ['lib']
 

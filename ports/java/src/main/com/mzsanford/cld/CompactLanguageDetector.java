@@ -1,21 +1,31 @@
 
 package com.mzsanford.cld;
 
+import java.util.Collections;
 import java.util.Locale;
+
 
 public class CompactLanguageDetector {
     static {
+        // Bring on the hotness.
         System.loadLibrary("cld");
     }
 
-    public Locale detect(String text) {
-	    Locale detected = null;
+    /**
+     * 
+     * @param text to identify the language of
+     * @return result object with identification details
+     */
+    public LanguageDetectionResult detect(String text) {
+    	LanguageDetectionResult result = null;
         // Call native code.
         String nativeLanguageCode = detectLanguage(text);
 		if (nativeLanguageCode != null) {
-			detected = new Locale(nativeLanguageCode);
+		    result = new LanguageDetectionResult(new Locale(nativeLanguageCode),
+		                                         false,
+		                                         Collections.<LanguageDetectionCandidate>emptyList());
 		}
-		return detected;
+		return result;
     }
 
     /* PRIVATE NATIVE CODE */
@@ -32,14 +42,11 @@ public class CompactLanguageDetector {
     /* Interactive test entry point */
     public static void main(String [] args) {
 	  CompactLanguageDetector cld = new CompactLanguageDetector();
-	  Locale detected = cld.detect(args[0]);
-	  if (detected != null) {
-		System.out.println("DETECTED: " + detected.getDisplayName());
+	  LanguageDetectionResult detected = cld.detect(args[0]);
+	  if (detected != null && detected.probableLocale != null) {
+		System.out.println("DETECTED: " + detected.probableLocale.getDisplayName());
 	  } else {
 		System.out.println("Language detection failed");
 	  }
-    }
-
-    public static class LanguageDetectionResult {
     }
 }

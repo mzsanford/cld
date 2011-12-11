@@ -18,7 +18,7 @@ JNIEXPORT jstring JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectL
 /*
  * Class:     com_mzsanford_cld_CompactLanguageDetector
  * Method:    detectLanguageDetails
- * Signature: (ZZZZLjava/lang/String;)Lcom/mzsanford/cld/CompactLanguageDetector/LanguageDetectionResult;
+ * Signature: (Ljava/lang/String;ZZZZLjava/lang/String;)Lcom/mzsanford/cld/LanguageDetectionResult;
  */
 JNIEXPORT jobject JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectLanguageDetails
   (JNIEnv *, jobject, jstring, jboolean, jboolean, jboolean, jboolean, jstring);

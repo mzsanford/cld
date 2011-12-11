@@ -98,6 +98,9 @@ JNIEXPORT jobject JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectL
                                           &is_reliable);
 
     // TODO: build and return the correct result class
+    jclass classResult = env->FindClass("com/mzsanford/cld/LanguageDetectionResult");
+    jclass classCandidate = env->FindClass("com/mzsanford/cld/LanguageDetectionCandidate");
+
     return( env->NewStringUTF(LanguageCode(lang)) );
 }
 

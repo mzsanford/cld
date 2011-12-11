@@ -3,7 +3,7 @@ GEMSPEC = eval(File.read('cld.gemspec'))
 
 ## Compiling
 require 'rake/extensiontask'
-Rake::ExtensionTask.new('ext', GEMSPEC) do |ext|
+Rake::ExtensionTask.new('cld_native', GEMSPEC) do |ext|
   ext.ext_dir = 'ext'
 end
 task :build => :compile
@@ -16,7 +16,7 @@ end
 ## Testing
 require 'rake/testtask'
 Rake::TestTask.new 'test' do |t|
-  t.test_files = FileList['test/test_*.rb']
+  t.test_files = FileList['test/*_test.rb']
 end
 task :test => :build
 

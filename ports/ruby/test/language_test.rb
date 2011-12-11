@@ -1,18 +1,25 @@
-require 'test_helper.rb'
+require File.join(File.dirname(__FILE__), 'test_helper.rb')
 
 class LanguageTest < Test::Unit::TestCase
   def setup
     @language = CLD::Language.new
-    # TODO: Setup values via set_ivar(?) for reading
+    @language.instance_variable_set(:@code, 'en')
+    @language.instance_variable_set(:@name, 'ENGLISH')
   end
 
   def test_code_read_only
-    # error
-    @language.code = 'en'
+    assert_equal('en', @language.code)
+    assert_raise(NoMethodError) do
+      @language.code = 'ar'
+    end
+    assert_equal('en', @language.code)
   end
   
   def test_code_name_only
-    # error
-    @language.name = 'ENGLISH'
+    assert_equal('ENGLISH', @language.name)
+    assert_raise(NoMethodError) do
+      @language.name = 'ARABIC'
+    end
+    assert_equal('ENGLISH', @language.name)
   end
 end

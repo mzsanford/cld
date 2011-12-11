@@ -2,11 +2,11 @@ require 'rake'
 GEMSPEC = eval(File.read('cld.gemspec'))
 
 ## Compiling
-# require 'rake/extensiontask'
-# Rake::ExtensionTask.new('ext', GEMSPEC) do |ext|
-#   ext.ext_dir = 'ext'
-# end
-# task :build => :compile
+require 'rake/extensiontask'
+Rake::ExtensionTask.new('ext', GEMSPEC) do |ext|
+  ext.ext_dir = 'ext'
+end
+task :build => :compile
 
 ## Gem packaging
 require 'rake/gempackagetask'

@@ -24,4 +24,13 @@ class DetectorTest < Test::Unit::TestCase
     end
     assert(block_executed, "Should have executed the block argument")
   end
+  
+  def test_option_html
+  end
+  
+  def test_option_all_languages
+  end
+  
+  def test_option_weak_matches
+  end
 end

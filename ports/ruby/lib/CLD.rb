@@ -41,8 +41,23 @@ module CLD
       @native = CLDNative.new
     end
   
-    # Detect the language of +text+. The +options+ can include:
+    # Detect the language of +text+ using the provided +options+ (see below). For example:
     #
+    #    detector = CLD::Detector.new
+    #    result = detector.detect_language("I'm a little teapot.")
+    #    puts result.probable_language.code
+    #    #=> 'en'
+    #
+    # Or, you can pass a block which will be called with the result object:
+    #
+    #    detector = CLD::Detector.new
+    #    detector.detect_language("I'm a little teapot.") do |result|
+    #      puts result.probable_language.code
+    #      #=> 'en'
+    #    end
+    #    
+    #
+    # The +options+ can include:
     # * +:html+           if the +text+ contains HTML that should be ignored
     # * +:all_languages+  test language outside of the core set (quality if not as good)
     # * +:weak_matches+   include weak matches in the results

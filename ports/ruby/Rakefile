@@ -1,0 +1,32 @@
+require 'rake'
+GEMSPEC = eval(File.read('cld.gemspec'))
+
+## Compiling
+require 'rake/extensiontask'
+Rake::ExtensionTask.new('ext', GEMSPEC) do |ext|
+  ext.ext_dir = 'ext'
+end
+task :build => :compile
+
+## Gem packaging
+require 'rake/gempackagetask'
+Rake::GemPackageTask.new(GEMSPEC) do |pkg|
+end
+
+## Testing
+require 'rake/testtask'
+Rake::TestTask.new 'test' do |t|
+  t.test_files = FileList['test/test_*.rb']
+end
+task :test => :build
+
+## Documenting
+require 'rdoc/task'
+RDoc::Task.new do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = 'cld'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+task :default => :test

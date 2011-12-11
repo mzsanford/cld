@@ -16,6 +16,12 @@ class DetectorTest < Test::Unit::TestCase
     assert_equal("en", result.probable_language.code)
   end
   
-  def pending_test_detect_no_args_block
+  def test_detect_no_args_block
+    block_executed = false
+    @detector.detect_language(ExampleEnglish) do |result|
+      assert_equal("en", result.probable_language.code)
+      block_executed = true
+    end
+    assert(block_executed, "Should have executed the block argument")
   end
 end

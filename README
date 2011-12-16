@@ -32,6 +32,8 @@ Or, once my Homebrew branch merges, Mac OSX users of Homebrew can build and inst
 
 # Ports
 
+None of the ports are 100% completed yet but the preliminary APIs are introduced below
+
 ## Ruby
 
 ### Installing
@@ -55,7 +57,22 @@ includes even more examples.
 
 ### Installing
 
+    # Coming soon!
+    $ npm install cld
+
 ### Example
+
+    // TODO: This will change when npm is working correctly.
+    var LanguageDetector = require("./build/Release/languagedetector.node").LanguageDetector;
+    var detector = new LanguageDetector();
+
+    // simple: result is "en"
+    detector.detectSync("This is my sample text")
+    
+    // complex:
+    detector.detect("I am simply English", function(result) {
+      // result.languageCode => "en"
+    });
 
 ### Documentation
 

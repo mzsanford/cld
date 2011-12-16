@@ -11,3 +11,4 @@ mkinstalldirs
 
 # Ports (node)
 /ports/node/build
+/ports/node/node_modules

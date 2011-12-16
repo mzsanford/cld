@@ -1,6 +1,6 @@
-# project noname (1.0) configured on Thu Nov 24 21:22:49 2011 by
+# project noname (1.0) configured on Thu Dec 15 20:47:12 2011 by
 # waf 1.5.16 (abi 7, python 20701f0 on darwin)
-# using /usr/local/bin/node-waf configure
+# using /Users/matt/.nvm/v0.4.7/bin/node-waf configure
 #
 
 ----------------------------------------
@@ -41,4 +41,4 @@ not found
 
 ----------------------------------------
 Checking for node prefix 
-ok /usr/local/Cellar/node/0.6.2
+ok /Users/matt/.nvm/v0.4.7

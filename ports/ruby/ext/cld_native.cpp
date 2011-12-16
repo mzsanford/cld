@@ -25,15 +25,17 @@ static VALUE t_build_detection_result(Language lang, bool is_reliable,
 	VALUE result_class = rb_const_get(cld_module, rb_intern("LanguageResult"));
 	VALUE possible_class = rb_const_get(cld_module, rb_intern("PossibleLanguage"));
 	VALUE lang_class = rb_const_get(cld_module, rb_intern("Language"));
-
 	VALUE detection_result = rb_class_new_instance(0, argv, result_class);
 	
 	VALUE probable_lang_obj = rb_class_new_instance(0, argv, lang_class);
-	rb_ivar_set(probable_lang_obj, rb_intern("@name"), rb_str_new2(LanguageName(lang)) );
-	rb_ivar_set(probable_lang_obj, rb_intern("@code"), rb_str_new2(LanguageCode(lang)) );
+	if ( !IS_LANGUAGE_UNKNOWN(lang) ) {
+	  rb_ivar_set(probable_lang_obj, rb_intern("@name"), rb_str_new2(LanguageName(lang)) );
+  	rb_ivar_set(probable_lang_obj, rb_intern("@code"), rb_str_new2(LanguageCode(lang)) );
 
-	rb_ivar_set(detection_result, rb_intern("@probable_language"), probable_lang_obj);
-	rb_ivar_set(detection_result, rb_intern("@reliable"), is_reliable);
+  	rb_ivar_set(detection_result, rb_intern("@probable_language"), probable_lang_obj);
+  	rb_ivar_set(detection_result, rb_intern("@reliable"), is_reliable); 
+	}
+
 
 	VALUE array = rb_ary_new();
 	for (int i=0; i < 3; i++) {

@@ -20,6 +20,13 @@ Rake::TestTask.new 'test' do |t|
 end
 task :test => :build
 
+## Benchmark
+task :benchmark do
+  Dir["benchmark/*_benchmark.rb"].each do |file|
+    system("ruby -I. -Ilib #{file}")
+  end
+end
+
 ## Documenting
 require 'rdoc/task'
 RDoc::Task.new do |rdoc|

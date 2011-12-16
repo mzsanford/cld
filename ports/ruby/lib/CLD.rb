@@ -28,10 +28,15 @@ module CLD
   class LanguageResult
     # The most likely Language for the provided tex
     attr_reader :probable_language
-    # Boolean representing if the cld considers +probable_language+ reliable
+    # :nodoc:
     attr_reader :reliable
     # Array of all PossibleLanguage objects
     attr_reader :possible_languages
+    
+    # Boolean representing if the cld considers +probable_language+ reliable
+    def reliable?
+      !!reliable
+    end
   end
 
   # Detect the language of a given string of text
@@ -62,6 +67,9 @@ module CLD
     # * +:all_languages+  test language outside of the core set (quality if not as good)
     # * +:weak_matches+   include weak matches in the results
     def detect_language(text, options = {}, &block)
+      return nil if text == nil
+      return nil if text =~ /^\s*$/
+
       if block_given?
         yield @native.detect_language(text, options)
       else

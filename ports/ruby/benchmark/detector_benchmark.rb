@@ -34,6 +34,18 @@ class DetectorBenchmark < CLD::Benchmark
       x.report(":html false") { iter.times { detector.detect_language(text, :html => false) } }
     end
   end
+  
+  def bench_data_by_size
+    text_m = IO.read(File.join(File.dirname(__FILE__), 'data', 'english-m.txt'))
+    text_l = IO.read(File.join(File.dirname(__FILE__), 'data', 'english-l.txt'))
+    iter = 50000
+    detector = CLD::Detector.new
+    
+    Benchmark.bm(12) do |x|
+      x.report("medium")  { iter.times { detector.detect_language(text_m) } }
+      x.report("large")   { iter.times { detector.detect_language(text_l) } }
+    end
+  end
 
 end
 

@@ -7,6 +7,7 @@ install-sh
 ltmain.sh
 missing
 mkinstalldirs
+.deps
 
 # Ports (node)
 /ports/node/build

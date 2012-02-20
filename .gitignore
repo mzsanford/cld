@@ -10,5 +10,5 @@ mkinstalldirs
 .deps
 
 # Ports (node)
-/ports/node/build
-/ports/node/node_modules
+ports/node/build
+ports/node/node_modules

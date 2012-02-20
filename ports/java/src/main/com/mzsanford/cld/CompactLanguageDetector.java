@@ -21,6 +21,7 @@ public class CompactLanguageDetector {
         // Call native code.
         String nativeLanguageCode = detectLanguage(text);
 		if (nativeLanguageCode != null) {
+		    // TODO: Native code should fill in this object
 		    result = new LanguageDetectionResult(new Locale(nativeLanguageCode),
 		                                         false,
 		                                         Collections.<LanguageDetectionCandidate>emptyList());

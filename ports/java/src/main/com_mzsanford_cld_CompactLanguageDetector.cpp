@@ -104,6 +104,43 @@ JNIEXPORT jobject JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectL
     return( env->NewStringUTF(LanguageCode(lang)) );
 }
 
+/********* Helper Methods *******/
+
+void mzs_throw_by_name(JNIEnv *env, const char *name, const char *msg) {
+     jclass cls = env->FindClass(name);
+     /* if cls is NULL, an exception has already been thrown */
+     if (cls != NULL) {
+         env->ThrowNew(cls, msg);
+     }
+     /* free the local ref */
+     env->DeleteLocalRef(cls);
+}
+
+jobject mzs_new_language_detection_result(JNIEnv *env) {
+    jobject resultObject;
+   
+    jclass classResult = env->FindClass("com/mzsanford/cld/LanguageDetectionResult");
+    if (classResult == 0) {
+        mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find com.mzsanford.cld.LanguageDetectionResult class");
+        return (jobject) 0;
+    }
+    
+    /* TODO: (II)V needs to have the correct args. Those need to be passed into here */
+    jmethodID ctorMethodId = env->GetMethodID(classResult, "<init>", "(II)V");
+	if (ctorMethodId == 0) {
+	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find com.mzsanford.cld.LanguageDetectionResult constructor");
+	  return (jobject) 0;
+	}
+ 
+	resultObject = env->NewObject(classResult, ctorMethodId);
+	if (resultObject == 0) {
+	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't create com.mzsanford.cld.LanguageDetectionResult object");
+	  return (jobject) 0;
+	}
+	
+	return resultObject;
+}
+
 #ifdef __cplusplus
 }
 #endif

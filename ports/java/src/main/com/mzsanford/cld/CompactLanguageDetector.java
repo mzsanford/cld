@@ -28,6 +28,13 @@ public class CompactLanguageDetector {
 		}
 		return result;
     }
+    
+    public LanguageDetectionResult detectDetailed(String text) {
+        // Native call.
+        LanguageDetectionResult result = detectLanguageDetails(text, true, true, true, true, null);
+        return result;
+    }
+    
 
     /* PRIVATE NATIVE CODE */
     private native String detectLanguage(String text);
@@ -43,11 +50,12 @@ public class CompactLanguageDetector {
     /* Interactive test entry point */
     public static void main(String [] args) {
 	  CompactLanguageDetector cld = new CompactLanguageDetector();
-	  LanguageDetectionResult detected = cld.detect(args[0]);
+	  LanguageDetectionResult detected = cld.detectDetailed(args[0]);
+      System.out.println("Here we go.");
 	  if (detected != null && detected.probableLocale != null) {
-		System.out.println("DETECTED: " + detected.probableLocale.getDisplayName());
+		System.out.println("DETECTED: " + detected.toString());
 	  } else {
-		System.out.println("Language detection failed");
+		System.out.println("Language detection failed: " + detected.isReliable());
 	  }
     }
 }

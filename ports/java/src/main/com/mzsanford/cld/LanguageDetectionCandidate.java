@@ -50,4 +50,15 @@ public class LanguageDetectionCandidate {
 	public double getNormalizedScore() {
 		return normalizedScore;
 	}
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("LanguageDetectionCandidate [locale=").append(locale)
+                                 .append(", score=").append(score)
+                                 .append(", normalizedScore=").append(normalizedScore).append("]")
+                                 .toString();
+    }
 }

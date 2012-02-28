@@ -50,4 +50,15 @@ public class LanguageDetectionResult {
         // Take the hit for a copy to prevent changes.
         return Collections.unmodifiableList(candidates);
     }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("LanguageDetectionResult [probableLocale=").append(probableLocale)
+                   .append(", reliable=").append(reliable)
+                   .append(", candidates=").append(candidates).append("]")
+                   .toString();
+    }
 }

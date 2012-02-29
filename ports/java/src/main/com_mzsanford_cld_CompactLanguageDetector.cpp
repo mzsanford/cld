@@ -1,6 +1,5 @@
 
 #include "com_mzsanford_cld_CompactLanguageDetector.h"
-#include "com_mzsanford_cld_CompactLanguageDetector_LanguageDetectionResult.h"
 
 #include <string.h>
 

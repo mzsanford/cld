@@ -5,7 +5,7 @@ CLD_INCLUDE_DIR = /usr/local/include/cld
 default: libcld.jnilib
 
 test: com/mzsanford/cld/CompactLanguageDetector.class libcld.jnilib
-	java com.mzsanford.cld.CompactLanguageDetector "Test text in English, but what if it were in some other language?"
+	java com.mzsanford.cld.CompactLanguageDetector "Was gibt neues?"
 
 com_mzsanford_cld_CompactLanguageDetector.o: com_mzsanford_cld_CompactLanguageDetector.cpp com_mzsanford_cld_CompactLanguageDetector.h
 	$(CC) -c -I/System/Library/Frameworks/JavaVM.framework/Headers -I$(CLD_INCLUDE_DIR) -DCLD_WINDOWS com_mzsanford_cld_CompactLanguageDetector.cpp

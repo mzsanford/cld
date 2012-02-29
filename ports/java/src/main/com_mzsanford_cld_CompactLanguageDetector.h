@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     com_mzsanford_cld_CompactLanguageDetector
- * Method:    detectLanguage
- * Signature: (Ljava/lang/String;)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectLanguage
-  (JNIEnv *, jobject, jstring);
-
-/*
- * Class:     com_mzsanford_cld_CompactLanguageDetector
  * Method:    detectLanguageDetails
  * Signature: (Ljava/lang/String;ZZZZLjava/lang/String;)Lcom/mzsanford/cld/LanguageDetectionResult;
  */

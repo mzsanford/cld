@@ -22,12 +22,11 @@ public class LanguageDetectionCandidate {
 	 * @param score raw probability score
 	 * @param normalizedScore normalized probability score
 	 */
-	LanguageDetectionCandidate(Locale locale, double score,
-			                          double normalizedScore) {
+	LanguageDetectionCandidate(Locale locale, double score, double normalizedScore) {
 		super();
 		this.locale = locale;
 		this.score = score;
-		this.normalizedScore = normalizedScore;
+		this.normalizedScore = normalizedScore;		
 	}
 	
 	/**

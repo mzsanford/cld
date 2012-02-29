@@ -65,25 +65,25 @@ jobject mzs_new_language_detection_candidates(JNIEnv *env,
     }
         
     /** New List for the candidates **/
-    jclass classList = env->FindClass("java/util/List");
+    jclass classList = env->FindClass("java/util/LinkedList");
     if (classList == 0) {
-        mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find java.util.List class");
+        mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find java.util.LinkedList class");
         return (jobject) 0;
     }
-    jmethodID ctorMethodIdList = env->GetMethodID(classList, "<init>", "(V)V");
+    jmethodID ctorMethodIdList = env->GetMethodID(classList, "<init>", "()V");
 	if (ctorMethodIdList == 0) {
-	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find java.util.List constructor");
+	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find java.util.LinkedList constructor");
 	  return (jobject) 0;
 	}
 	resultObject = env->NewObject(classList, ctorMethodIdList);
 	if (resultObject == 0) {
-	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't create java.util.List object");
+	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't create java.util.LinkedList object");
 	  return (jobject) 0;
 	}
 	/* Add method for building the List */
 	jmethodID addMethodIdList = env->GetMethodID(classList, "add", "(Ljava/lang/Object;)Z");
 	if (addMethodIdList == 0) {
-	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find java.util.List method 'add(Object)'");
+	  mzs_throw_by_name(env, "java/lang/IllegalArgumentException", "Can't find java.util.LinkedList method 'add(Object)'");
 	  return (jobject) 0;
 	}
 	
@@ -101,27 +101,30 @@ jobject mzs_new_language_detection_candidates(JNIEnv *env,
     
     /** Fill in the list of candidates **/
     for (int i=0; i<3; i++) {
-      if (!IS_LANGUAGE_UNKNOWN(language3[i])) {
+      if (!IS_LANGUAGE_UNKNOWN(language3[i])) {        
         env->CallBooleanMethod(resultObject,
                                addMethodIdList,
                                env->NewObject(classCandidate, ctorMethodIdCandidate,
                                               mzs_new_locale(env, LanguageCode(language3[i])),
-                                              percent3[i], normalized_score3[i])
+                                              (double)percent3[i], normalized_score3[i])
                               );
+       
       }
     }
                                          
-
+    return resultObject;
 }
 
 jobject mzs_new_language_detection_result(JNIEnv *env,
                                           Language probableLanguage,
-                                          bool probableIsReliable) {
+                                          bool probableIsReliable,
+                                          Language language3[3],
+                                          double normalized_score3[3],
+                                          int percent3[3]) {
     jobject resultObject;
     jobject probableLocale = mzs_new_locale(env, LanguageCode(probableLanguage));
     jboolean reliable = probableIsReliable;
-    /* TODO: Init or pass in? */
-    jobject detectionCandidates = NULL;
+    jobject detectionCandidates = mzs_new_language_detection_candidates(env, language3, normalized_score3, percent3);
 
     jclass classResult = env->FindClass("com/mzsanford/cld/LanguageDetectionResult");
     if (classResult == 0) {
@@ -146,52 +149,6 @@ jobject mzs_new_language_detection_result(JNIEnv *env,
 
 
 /******* Begin JNI methods *******/
-
-/*
- * Class:     com_mzsanford_cld_CompactLanguageDetector
- * Method:    detectLanguage
- * Signature: (Ljava/lang/String;)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectLanguage
-  (JNIEnv *env, jobject obj, jstring text) {
-
-    bool is_plain_text = true;
-    bool do_allow_extended_languages = true;
-    bool do_pick_summary_language = false;
-    bool do_remove_weak_matches = false;
-    bool is_reliable;
-    Language plus_one = (Language)UNKNOWN_LANGUAGE;
-    const char* tld_hint = NULL;
-    int encoding_hint = UNKNOWN_ENCODING;
-    Language language_hint = UNKNOWN_LANGUAGE;
-
-    double normalized_score3[3];
-    Language language3[3];
-    int percent3[3];
-    int text_bytes;
-
-    jboolean iscopy;
-    const char *src = env->GetStringUTFChars(text, &iscopy);
-
-    Language lang;
-    lang = CompactLangDet::DetectLanguage(0,
-                                          src, strlen(src),
-                                          is_plain_text,
-                                          do_allow_extended_languages,
-                                          do_pick_summary_language,
-                                          do_remove_weak_matches,
-                                          tld_hint,
-                                          encoding_hint,
-                                          language_hint,
-                                          language3,
-                                          percent3,
-                                          normalized_score3,
-                                          &text_bytes,
-                                          &is_reliable);
-
-
-    return( env->NewStringUTF(LanguageCode(lang)) );
-}
 
 JNIEXPORT jobject JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectLanguageDetails
   (JNIEnv *env, jobject obj, jstring text, jboolean plain_text, jboolean allow_extended,
@@ -235,7 +192,7 @@ JNIEXPORT jobject JNICALL Java_com_mzsanford_cld_CompactLanguageDetector_detectL
                                           &text_bytes,
                                           &is_reliable);
 
-    return( mzs_new_language_detection_result(env, lang, is_reliable) );
+    return mzs_new_language_detection_result(env, lang, is_reliable, language3, normalized_score3, percent3);
 }
 
 #ifdef __cplusplus

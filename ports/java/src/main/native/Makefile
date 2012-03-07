@@ -2,19 +2,26 @@
 CLD_LIB_DIR = /usr/local/lib/cld
 CLD_INCLUDE_DIR = /usr/local/include/cld
 
-default: libcld.jnilib
+BASEDIR=../../../
+CLASSDIR=../../../target/classes
+OUTPUTDIR=../../../target/native
 
-test: ../../../target/classes/com/mzsanford/cld/CompactLanguageDetector.class libcld.jnilib
-	java com.mzsanford.cld.CompactLanguageDetector "Was gibt neues?"
+default: $(OUTPUTDIR)/libcld.jnilib
 
-com_mzsanford_cld_CompactLanguageDetector.o: com_mzsanford_cld_CompactLanguageDetector.cpp com_mzsanford_cld_CompactLanguageDetector.h
-	$(CC) -c -I/System/Library/Frameworks/JavaVM.framework/Headers -I$(CLD_INCLUDE_DIR) -DCLD_WINDOWS com_mzsanford_cld_CompactLanguageDetector.cpp
+test: $(CLASSDIR)/com/mzsanford/cld/CompactLanguageDetector.class $(OUTPUTDIR)/libcld.jnilib
+	java -cp $(CLASSDIR) com.mzsanford.cld.CompactLanguageDetector "Was gibt neues?"
 
-libcld.jnilib: com_mzsanford_cld_CompactLanguageDetector.o
-	$(CC) -dynamiclib -o libcld.jnilib com_mzsanford_cld_CompactLanguageDetector.o -framework JavaVM -lcld -L$(CLD_LIB_DIR)
+$(OUTPUTDIR)/com_mzsanford_cld_CompactLanguageDetector.o: $(OUTPUTDIR) com_mzsanford_cld_CompactLanguageDetector.cpp com_mzsanford_cld_CompactLanguageDetector.h
+	$(CC) -c -I/System/Library/Frameworks/JavaVM.framework/Headers -I$(CLD_INCLUDE_DIR) -DCLD_WINDOWS -o $(OUTPUTDIR)/com_mzsanford_cld_CompactLanguageDetector.o com_mzsanford_cld_CompactLanguageDetector.cpp
 
-com_mzsanford_cld_CompactLanguageDetector.h: ../java/com/mzsanford/cld/CompactLanguageDetector.java
-	javah -classpath ../../../target/classes com.mzsanford.cld.CompactLanguageDetector
+$(OUTPUTDIR)/libcld.jnilib: $(OUTPUTDIR) $(OUTPUTDIR)/com_mzsanford_cld_CompactLanguageDetector.o
+	$(CC) -dynamiclib -o $(OUTPUTDIR)/libcld.jnilib $(OUTPUTDIR)/com_mzsanford_cld_CompactLanguageDetector.o -framework JavaVM -lcld -L$(CLD_LIB_DIR)
+
+$(OUTPUTDIR)/com_mzsanford_cld_CompactLanguageDetector.h: $(OUTPUTDIR) ../java/com/mzsanford/cld/CompactLanguageDetector.java
+	javah -classpath $(CLASSDIR) com.mzsanford.cld.CompactLanguageDetector
+
+$(OUTPUTDIR):
+	mkdir -p $(OUTPUTDIR)
 
 clean:
-	rm com_mzsanford_cld_CompactLanguageDetector.o libcld.jnilib
+	rm $(OUTPUTDIR)/com_mzsanford_cld_CompactLanguageDetector.o $(OUTPUTDIR)/libcld.jnilib

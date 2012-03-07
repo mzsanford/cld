@@ -6,8 +6,11 @@
   <name>Compact Language Detector</name>
   <description>Java bindings for the C++ Compact Language Detector from the Chromium project</description>
 
-  <properties>
+    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <native.dir>src/main/native</native.dir>
+      <!-- the dynamic library path for extracted native libraries -->
+      <native.test.rpath>target/native</native.test.rpath>
     </properties>
 
       <dependencies>
@@ -28,11 +31,11 @@
               <scope>provided</scope>
           </dependency>
 
-          <dependency>
+          <!-- <dependency>
               <groupId>com.wapmx.native</groupId>
               <artifactId>mx-native-loader</artifactId>
               <version>1.2</version>
-          </dependency>
+          </dependency> -->
       </dependencies>
 
   <build>
@@ -79,10 +82,7 @@
                       </execution>
                   </executions>
               </plugin>
-          </plugins>
 
-          <pluginManagement>
-              <plugins>
                   <plugin>
                       <artifactId>maven-antrun-plugin</artifactId>
                       <executions>
@@ -139,18 +139,11 @@
                               <LD_LIBRARY_PATH>${native.test.rpath}</LD_LIBRARY_PATH>
                               <DYLD_LIBRARY_PATH>${native.test.rpath}</DYLD_LIBRARY_PATH>
                           </environmentVariables>
-                          <systemProperties>
-                              <property>
-                                  <name>java.library.tmpdir</name>
-                                  <value>target/tmplib</value>
-                              </property>
-                          </systemProperties>
                       </configuration>
                   </plugin>
                   
               </plugins>
             
-          </pluginManagement>
       </build>
 
       <repositories>

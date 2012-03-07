@@ -4,7 +4,7 @@ CLD_INCLUDE_DIR = /usr/local/include/cld
 
 default: libcld.jnilib
 
-test: com/mzsanford/cld/CompactLanguageDetector.class libcld.jnilib
+test: ../../../target/classes/com/mzsanford/cld/CompactLanguageDetector.class libcld.jnilib
 	java com.mzsanford.cld.CompactLanguageDetector "Was gibt neues?"
 
 com_mzsanford_cld_CompactLanguageDetector.o: com_mzsanford_cld_CompactLanguageDetector.cpp com_mzsanford_cld_CompactLanguageDetector.h
@@ -13,11 +13,8 @@ com_mzsanford_cld_CompactLanguageDetector.o: com_mzsanford_cld_CompactLanguageDe
 libcld.jnilib: com_mzsanford_cld_CompactLanguageDetector.o
 	$(CC) -dynamiclib -o libcld.jnilib com_mzsanford_cld_CompactLanguageDetector.o -framework JavaVM -lcld -L$(CLD_LIB_DIR)
 
-com/mzsanford/cld/CompactLanguageDetector.class: com/mzsanford/cld/CompactLanguageDetector.java
-	javac com/mzsanford/cld/CompactLanguageDetector.java
-
-com_mzsanford_cld_CompactLanguageDetector.h: com/mzsanford/cld/CompactLanguageDetector.java
-	javah com.mzsanford.cld.CompactLanguageDetector
+com_mzsanford_cld_CompactLanguageDetector.h: ../java/com/mzsanford/cld/CompactLanguageDetector.java
+	javah -classpath ../../../target/classes com.mzsanford.cld.CompactLanguageDetector
 
 clean:
 	rm com_mzsanford_cld_CompactLanguageDetector.o libcld.jnilib

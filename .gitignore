@@ -17,7 +17,8 @@ libtool
 
 
 # Ports (node)
-/ports/node/build
+ports/node/build
+ports/node/node_modules
 
 # Build artifacts
 *.o

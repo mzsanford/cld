@@ -12,6 +12,15 @@
 using namespace node;
 using namespace v8;
 
+#define CALLBACK_TYPE int
+
+#if (NODE_MAJOR_VERSION == 0) && (NODE_MINOR_VERSION == 6)
+#define NODE_0_6_X
+#define CALLBACK_TYPE void
+#else
+#define CALLBACK_TYPE int
+#endif
+
 class LanguageDetector: ObjectWrap
 {
 private:
@@ -205,7 +214,7 @@ public:
   }
 
   // Background thread: The asynch portion
-  static void EIO_Detect(eio_req *req)
+  static CALLBACK_TYPE EIO_Detect(eio_req *req)
   {
     language_detect_baton_t *baton = static_cast<language_detect_baton_t *>(req->data);
     baton->result = new language_detect_result_t();
@@ -238,7 +247,11 @@ public:
                                           &baton->result->reliable);
 
     std::string lang_str(LanguageCode(lang));
-	baton->result->language_code = lang_str;
+	  baton->result->language_code = lang_str;
+
+#ifndef NODE_0_6_X
+    return 0;
+#endif
   }
 
   // Main thread: The return portion after the async portion is completed

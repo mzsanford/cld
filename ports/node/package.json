@@ -10,8 +10,12 @@
     "test": "./test.js"
   },
   "engines": {
-    "node": "~0.4.12"
+    "node": "~0.4.12",
+    "node": "~0.6"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "nodeunit": ">=0.6.2",
+    "benchmark": ">=0.3.0"
+  }
 }

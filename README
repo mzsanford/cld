@@ -26,9 +26,9 @@ Once built from source:
 
     $ make install
 
-Or, once my Homebrew branch merges, Mac OSX users of Homebrew can build and install via:
+Or, Mac OSX users of Homebrew can build and install via:
 
-    $ brew install libcld
+    $ brew install https://raw.github.com/mzsanford/homebrew/libcld/Library/Formula/libcld.rb
 
 # Ports
 
@@ -36,17 +36,36 @@ None of the ports are 100% completed yet but the preliminary APIs are introduced
 
 ## Ruby
 
+### Prerequisites
+
+The `libcld` C++ library must be installed (see above)
+
 ### Installing
 
-    # Coming Soon!
-    $ gem install cld
+    # 'gem install ...' in the near future
+    $ git clone http://github.com/mzsanford/cld.git
+    $ cd cld/ports/ruby
+    $ rake gem
+    $ gem install pkg/*gem
 
 ### Example
 
-    detector = CLD::Detector.new
-    result = detector.detect_language("I'm a little teapot.")
-    puts result.probable_language.code
-    #=> 'en'
+    require 'CLD'
+    require 'pp' # just for illustration
+
+    cld = CLD::Detector.new
+    res = cld.detect_language('I am the very measure of a modern major general')
+
+    pp res
+    #<CLD::LanguageResult:0x007fb7728b6768
+     @possible_languages=
+      [#<CLD::PossibleLanguage:0x007fb7728b6628
+        @language=#<CLD::Language:0x007fb7728b66a0 @code="en", @name="ENGLISH">,
+        @raw_score=100.0,
+        @score=52.6742301458671>],
+     @probable_language=
+      #<CLD::Language:0x007fb7728b6740 @code="en", @name="ENGLISH">,
+     @reliable=0>
 
 ### Documentation
 
@@ -55,47 +74,87 @@ includes even more examples.
 
 ## Node
 
+### Prerequisites
+
+The `libcld` C++ library must be installed (see above)
+
 ### Installing
 
-    # Coming soon!
-    $ npm install cld
+    # 'npm install ...' in the near future
+    $ git clone http://github.com/mzsanford/cld.git
+    $ cd cld/ports/node
+    $ node-waf configure build
+    $ npm install
 
 ### Example
 
-    // TODO: This will change when npm is working correctly.
-    var LanguageDetector = require("./build/Release/languagedetector.node").LanguageDetector;
+    var LanguageDetector = require('languagedetector').LanguageDetector;
     var detector = new LanguageDetector();
 
-    // simple: result is "en"
-    detector.detectSync("This is my sample text")
-    
-    // complex:
-    detector.detect("I am simply English", function(result) {
-      // result.languageCode => "en"
+    // Sync - Returns two letter language code of the most likely candidate language
+    var simpleResult = detector.detectSync("This is my sample text");
+    // Returns 'en' in this case
+
+    // Async - Returns detailed result structure
+    detector.detect("This is my sample text", function(result) {
+      // 'result' contains:
+      // { languageCode: 'en',
+      //  reliable: false,
+      //  details:
+      //   [ { languageCode: 'en', normalizedScore: 20.25931928687196, percentScore: 64 },
+      //     { languageCode: 'fr', normalizedScore: 8.221993833504625, percentScore: 36 },
+      //     { languageCode: 'un', normalizedScore: 0, percentScore: 0 } ] }
     });
 
 ### Documentation
 
-## Java
+Both the `detectSync` and `detect` methods take an option second parameter that is a hash of options. The available options (and defaults) are:
 
-### Installing
+  * `tld` (none): The TLD of the domain that the data came from. This is used as a hint for some ambiguous languages, for example the following snippet from there tests:
 
-### Example
+        var detector = new LanguageDetector();
+        var ambig =  "  常用漢字  ";
+        detector.detectSync(ambig)                  #=> "zh-TW"
+        detector.detectSync(ambig, { tld: "cn" })   #=> "zh"
+        detector.detectSync(ambig, { tld: "jp" })   #=> "ja"
+                    
+  * `html` (`false`):  The string to be processed HTML. If this is the case then markup will be ignored in the calculations.
 
-### Documentation
+  * `allowExtendedLanguages` (`true`): Return language from outside of the core set of supported languages (where wuality is not as good)
+
+  * `pickSummaryLanguage` (`false`): If true then the summary language may not be the top match, based on some other factors.
+
+  * `skipWeakMatches` (`false`): Include weak matches in the results
 
 ## Python
 
+### Prerequisites
+
+The `libcld` C++ library must be installed (see above)
+
 ### Installing
+
+    $ git clone http://github.com/mzsanford/cld.git
+    $ cd cld/ports/python
+    $ make install # This will prompt for your password
 
 ### Example
 
+    import cld
+
+    detectedLangName, detectedLangCode, isReliable, textBytesFound, details = cld.detect("This is my sample text", pickSummaryLanguage=True, removeWeakMatches=False)
+    print '  detected: %s' % detectedLangName
+    print '  reliable: %s' % (isReliable != 0)
+    print '  textBytes: %s' % textBytesFound
+    print '  details: %s' % str(details)
+
+    # The output look lie so:
+    #  detected: ENGLISH
+    #  reliable: True
+    #  textBytes: 25
+    #  details: [('ENGLISH', 'en', 64, 20.25931928687196), ('FRENCH', 'fr', 36, 8.221993833504625)]
+
 ### Documentation
-
-
-# Original notes on the Python library (plus Markdown)
-
-## USING THE PYTHON LIBRARY
 
 Once you've compiled & installed the Python bindings detection is easy.
 

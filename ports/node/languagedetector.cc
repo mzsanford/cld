@@ -2,6 +2,7 @@
 #include <string>
 #include <v8.h>
 #include <node.h>
+#include <node_version.h>
 
 // Include the CLD headers
 #include "cld/compact_lang_det.h"
@@ -13,9 +14,8 @@ using namespace node;
 using namespace v8;
 
 #define NUM_POSSIBLE_LANGUAGES 3
-#define CALLBACK_TYPE int
 
-#if (NODE_MAJOR_VERSION == 0) && (NODE_MINOR_VERSION == 6)
+#if NODE_VERSION_AT_LEAST(0, 6, 0)
 #define NODE_0_6_X
 #define CALLBACK_TYPE void
 #else

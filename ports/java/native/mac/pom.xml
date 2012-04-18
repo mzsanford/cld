@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.mzsanford.cld</groupId>
+    <artifactId>nativeParent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>com.mzsanford.cld</groupId>
+  <artifactId>libcld</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Compact Language Detector - native mac</name>
+  <url>http://maven.apache.org</url>
+  <packaging>dylib</packaging>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <javahOS>mac</javahOS>
+          <compilerProvider>generic</compilerProvider>
+          <compilerExecutable>cc</compilerExecutable>
+          <linkerExecutable>cc</linkerExecutable>
+          <sources>
+            <source>
+              <directory>../src/main/native</directory>
+              <fileNames>
+                <fileName>com_mzsanford_cld_CompactLanguageDetector.cpp</fileName>
+              </fileNames>
+            </source>
+          </sources>
+          <compilerStartOptions>
+            <!-- TODO: Get /usr/local/include/cld from pkg-config -->
+            <compilerStartOption>-c -DCLD_WINDOWS -I/System/Library/Frameworks/JavaVM.framework/Headers -I/usr/local/include/cld </compilerStartOption>
+          </compilerStartOptions>
+          <linkerStartOptions>
+            <!-- TODO: Get /usr/local/lib/cld from pkg-config -->
+            <linkerStartOption>-dynamiclib -framework JavaVM -lcld -L/usr/local/lib/cld </linkerStartOption>
+          </linkerStartOptions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

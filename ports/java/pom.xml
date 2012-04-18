@@ -1,162 +1,49 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project>
+
   <modelVersion>4.0.0</modelVersion>
-  <groupId>CLD</groupId>
-  <artifactId>CLD</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Compact Language Detector</name>
-  <description>Java bindings for the C++ Compact Language Detector from the Chromium project</description>
+  <groupId>com.mzsanford.cld</groupId>
+  <artifactId>parentProject</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Compact Language Detector parent project</name>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+    
+  <packaging>pom</packaging>
+  <modules>
+    <module>native</module>
+    <module>java</module>
+  </modules>
 
-    <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <native.dir>src/main/native</native.dir>
-      <!-- the dynamic library path for extracted native libraries -->
-      <native.test.rpath>target/native</native.test.rpath>
-    </properties>
-
-      <dependencies>
-        <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.8</version>
-          <scope>test</scope>
-        </dependency>
-
-          <dependency>
-              <groupId>com.wapmx.native</groupId>
-              <artifactId>native-build-scripts</artifactId>
-              <version>1.14</version>
-              <type>zip</type>
-              <classifier>include</classifier>
-              <!-- "provided" is maven's best effort at 'compile-time-only' -->
-              <scope>provided</scope>
-          </dependency>
-
-          <!-- <dependency>
-              <groupId>com.wapmx.native</groupId>
-              <artifactId>mx-native-loader</artifactId>
-              <version>1.2</version>
-          </dependency> -->
-      </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <build>
-          <plugins>
-              <plugin>
-                  <artifactId>maven-dependency-plugin</artifactId>
-                  <executions>
-                      <execution>
-                          <!-- 
-                          unpack the native compile-time dependencies into the
-                          target/extracted dir before we start
-                          anything with the type 'zip' and classifier
-                          'includes' 
-                          -->
-                          <id>unpack-dependencies</id>
-                          <goals>
-                              <goal>unpack-dependencies</goal>
-                          </goals>
-                          <configuration>
-                              <outputDirectory>${project.build.directory}/extracted</outputDirectory>
-                              <includeTypes>zip</includeTypes>
-                              <includeClassifiers>include</includeClassifiers>
-                          </configuration>
-                      </execution>
-                  </executions>
-              </plugin>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>native-maven-plugin</artifactId>
+        </plugin>
+        
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                <!-- TODO: This is profile (mac) specific -->
+                <argLine>-Djava.library.path=${basedir}/../native/mac/target</argLine>
+            </configuration>
+        </plugin>
 
-              <!-- build a tarball of the source -->
-              <plugin>
-                  <artifactId>maven-assembly-plugin</artifactId>
-                  <inherited>false</inherited>
-                  <executions>
-                      <execution>
-                          <id>attach-src-archive</id>
-                          <phase>package</phase>
-                          <goals>
-                              <goal>attached</goal>
-                          </goals>
-                          <configuration>
-                              <descriptors>
-                                  <descriptor>src.xml</descriptor>
-                              </descriptors>
-                          </configuration>
-                      </execution>
-                  </executions>
-              </plugin>
-
-                  <plugin>
-                      <artifactId>maven-antrun-plugin</artifactId>
-                      <executions>
-                          <execution>
-                              <!-- this execution happens just after compiling the java
-                              classes, and builds the native code.
-
-                              We use an antrun for this, rather than an exec, as it
-                              (a) finds make on the system path and (b)
-                              allows us to write a file containing the classpath.
-                              -->
-                              <id>build-native</id>
-                              <phase>process-classes</phase>
-                              <goals>
-                                  <goal>run</goal>
-                              </goals>
-                              <configuration>
-                                  <tasks>
-                                      <property name="native.classpath" refid="maven.compile.classpath" />
-                                      <echo file="${project.build.directory}/compile-classpath" message="${native.classpath}" />
-                                      <exec dir="${native.dir}" executable="make" failonerror="true">
-                                          <arg value="MX_SYSINFO=${mx.sysinfo}" />
-                                      </exec>
-                                  </tasks>
-                              </configuration>
-                          </execution>
-
-                          <execution>
-                              <!-- clean the native objects -->
-                              <id>clean-native</id>
-                              <phase>pre-clean</phase>
-                              <goals>
-                                  <goal>run</goal>
-                              </goals>
-                              <configuration>
-                                  <tasks>
-                                      <exec dir="${native.dir}" executable="make" failonerror="false">
-                                          <arg value="clean" />
-                                      </exec>
-                                  </tasks>
-                              </configuration>
-                          </execution>
-                      </executions>
-                  </plugin>
-
-                  <plugin>
-                      <!-- set up java.library.tmpdir and LD_LIBRARY_PATH for tests
-                      running under the surefire plugin 
-                      Darwin uses DYLD_LIBRARY_PATH
-                      -->
-                      <artifactId>maven-surefire-plugin</artifactId>
-                      <configuration>
-                          <environmentVariables>
-                              <LD_LIBRARY_PATH>${native.test.rpath}</LD_LIBRARY_PATH>
-                              <DYLD_LIBRARY_PATH>${native.test.rpath}</DYLD_LIBRARY_PATH>
-                          </environmentVariables>
-                      </configuration>
-                  </plugin>
-                  
-              </plugins>
-            
-      </build>
-
-      <repositories>
-          <repository>
-              <releases>
-                  <enabled>true</enabled>
-                  <updatePolicy>never</updatePolicy>
-                  <checksumPolicy>warn</checksumPolicy>
-              </releases>
-              <id>mx-opensource</id>
-              <name>MX Telecom opensource repo</name>
-              <url>http://opensource.mxtelecom.com/maven/repo</url>
-              <layout>default</layout>
-          </repository>
-      </repositories>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
 </project>

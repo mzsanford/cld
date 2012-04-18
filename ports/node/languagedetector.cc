@@ -12,6 +12,7 @@
 using namespace node;
 using namespace v8;
 
+#define NUM_POSSIBLE_LANGUAGES 3
 #define CALLBACK_TYPE int
 
 #if (NODE_MAJOR_VERSION == 0) && (NODE_MINOR_VERSION == 6)
@@ -106,13 +107,11 @@ public:
   static Handle<Value> DetectSync(const Arguments& args)
   {
     HandleScope scope;
-    // LanguageDetector* hw = ObjectWrap::Unwrap<LanguageDetector>(args.This());
-
-	Handle<String> v8text = args[0]->ToString();
-	const char *src = GetString(v8text).c_str();
+  	Handle<String> v8text = args[0]->ToString();
+  	const char *src = GetString(v8text).c_str();
 	
-	// Parse options.
-	bool is_plain_text = !optionalBooleanArg(args, 1, "html", false);
+  	// Parse options.
+  	bool is_plain_text = !optionalBooleanArg(args, 1, "html", false);
     bool do_allow_extended_languages = optionalBooleanArg(args, 1, "allowExtendedLanguages", true);
     bool do_pick_summary_language = optionalBooleanArg(args, 1, "pickSummaryLanguage", false);
     bool do_remove_weak_matches = optionalBooleanArg(args, 1, "skipWeakMatches", false);
@@ -122,9 +121,9 @@ public:
     int encoding_hint = UNKNOWN_ENCODING;
     Language language_hint = UNKNOWN_LANGUAGE;
 
-    double normalized_score3[3];
-    Language language3[3];
-    int percent3[3];
+    double normalized_score3[NUM_POSSIBLE_LANGUAGES];
+    Language language3[NUM_POSSIBLE_LANGUAGES];
+    int percent3[NUM_POSSIBLE_LANGUAGES];
     int text_bytes;
 
     Language lang;
@@ -148,21 +147,20 @@ public:
     return scope.Close(result);
   }
 
-  // TODO: More complete result info
   struct language_detect_result_t {
-	std::string language_code;
-	bool reliable;
-	double normalized_scores[3];
-    Language languages[3];
-    int percents[3];
+	  std::string language_code;
+	  bool reliable;
+	  double normalized_scores[NUM_POSSIBLE_LANGUAGES];
+    Language languages[NUM_POSSIBLE_LANGUAGES];
+    int percents[NUM_POSSIBLE_LANGUAGES];
   };
 
   struct language_detect_baton_t {
     LanguageDetector *ld;
 
-	std::string source_text;
-	std::string tld_hint;	
-	bool is_plain_text;
+	  std::string source_text;
+	  std::string tld_hint;	
+	  bool is_plain_text;
     bool do_allow_extended_languages;
     bool do_pick_summary_language;
     bool do_remove_weak_matches;
@@ -191,22 +189,20 @@ public:
 			return ThrowException(Exception::TypeError(String::New("Argument 2 or 3 must be a function")));
 		}
 
-	    
-
-	    LanguageDetector* ld = ObjectWrap::Unwrap<LanguageDetector>(args.This());
+	  LanguageDetector* ld = ObjectWrap::Unwrap<LanguageDetector>(args.This());
 		language_detect_baton_t *baton = new language_detect_baton_t();
-	    baton->ld = ld;
+	  baton->ld = ld;
 		
 		baton->source_text = GetString(args[0]->ToString());
 		baton->tld_hint =  optionalStringArg(args, options_arg_idx, "tld", "");		
 		baton->is_plain_text = !optionalBooleanArg(args, options_arg_idx, "html", false);
-	    baton->do_allow_extended_languages = optionalBooleanArg(args, options_arg_idx, "allowExtendedLanguages", true);
-	    baton->do_pick_summary_language = optionalBooleanArg(args, options_arg_idx, "pickSummaryLanguage", false);
-	    baton->do_remove_weak_matches = optionalBooleanArg(args, options_arg_idx, "skipWeakMatches", false);
-	    // baton->tld_hint =  Persistent<String>::New(optionalStringArg(args, options_arg_idx, "tld", NULL));
-	    baton->cb = Persistent<Function>::New(cb);
+    baton->do_allow_extended_languages = optionalBooleanArg(args, options_arg_idx, "allowExtendedLanguages", true);
+    baton->do_pick_summary_language = optionalBooleanArg(args, options_arg_idx, "pickSummaryLanguage", false);
+    baton->do_remove_weak_matches = optionalBooleanArg(args, options_arg_idx, "skipWeakMatches", false);
+    // baton->tld_hint =  Persistent<String>::New(optionalStringArg(args, options_arg_idx, "tld", NULL));
+    baton->cb = Persistent<Function>::New(cb);
 	
-	    ld->Ref();
+	  ld->Ref();
 		eio_custom(EIO_Detect, EIO_PRI_DEFAULT, EIO_AfterDetect, baton);
 		ev_ref(EV_DEFAULT_UC);
 
@@ -219,12 +215,12 @@ public:
     language_detect_baton_t *baton = static_cast<language_detect_baton_t *>(req->data);
     baton->result = new language_detect_result_t();
 
-	const char *src = baton->source_text.c_str();
-	const char *tld_hint = NULL;
-	if (!baton->tld_hint.empty())
-	{
-		tld_hint = baton->tld_hint.c_str();
-	}
+  	const char *src = baton->source_text.c_str();
+  	const char *tld_hint = NULL;
+  	if (!baton->tld_hint.empty())
+  	{
+  		tld_hint = baton->tld_hint.c_str();
+  	}
 
     int encoding_hint = UNKNOWN_ENCODING;
     Language language_hint = UNKNOWN_LANGUAGE;
@@ -247,7 +243,7 @@ public:
                                           &baton->result->reliable);
 
     std::string lang_str(LanguageCode(lang));
-	  baton->result->language_code = lang_str;
+    baton->result->language_code = lang_str;
 
 #ifndef NODE_0_6_X
     return 0;
@@ -268,8 +264,8 @@ public:
 	resultObject->Set(String::New("languageCode"), String::New(baton->result->language_code.c_str()));
 	resultObject->Set(String::New("reliable"), Boolean::New(baton->result->reliable));
 
-    Handle<Array> detailArray = Array::New(3);
-	for (int i=0; i < 3; i++)
+    Handle<Array> detailArray = Array::New(NUM_POSSIBLE_LANGUAGES);
+	for (int i=0; i < NUM_POSSIBLE_LANGUAGES; i++)
 	{
 		// Build a detail object
 		Local<Object> detailObject = Object::New();

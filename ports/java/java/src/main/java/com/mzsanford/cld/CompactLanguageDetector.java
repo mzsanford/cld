@@ -1,6 +1,12 @@
 
 package com.mzsanford.cld;
 
+/**
+ * Class providing an interface for detecting the language of a given string of text using
+ * the Compact Language Detector.
+ * 
+ * @author Matt Sanford <matt@mzsanford.com>
+ */
 public class CompactLanguageDetector {
     static {
         // Bring on the hotness.

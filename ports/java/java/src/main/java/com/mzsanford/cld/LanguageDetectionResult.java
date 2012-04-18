@@ -7,7 +7,7 @@ import java.util.Locale;
 /**
  * Results of a language detection attempt
  * 
- * @author matt
+ * @author Matt Sanford <matt@mzsanford.com>
  */
 public class LanguageDetectionResult {
 	Locale probableLocale;

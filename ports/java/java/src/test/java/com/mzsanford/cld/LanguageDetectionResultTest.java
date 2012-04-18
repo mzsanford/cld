@@ -1,6 +1,6 @@
 package com.mzsanford.cld;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,14 +31,14 @@ public class LanguageDetectionResultTest {
     public void testGetCandidates() {
         List<LanguageDetectionCandidate> candidates = new LinkedList<LanguageDetectionCandidate>();
         result = new LanguageDetectionResult(locale, true, candidates);
-        assertEquals(candidates, result.getCandidates());
+        assertArrayEquals(candidates.toArray(), result.getCandidates().toArray());
     }
 
     @Test
     public void testToString() {
         result = new LanguageDetectionResult(locale, true, null);
-        assert(result.toString().indexOf("probableLocale=en") > 0);
-        assert(result.toString().indexOf("reliable=true") > 0);
+        assertTrue(result.toString().indexOf("probableLocale=en") > 0);
+        assertTrue(result.toString().indexOf("reliable=true") > 0);
     }
 
 }

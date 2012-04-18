@@ -5,7 +5,7 @@ import java.util.Locale;
 /**
  * A single possible result
  * 
- * @author matt
+ * @author Matt Sanford <matt@mzsanford.com>
  */
 public class LanguageDetectionCandidate {
     /** Locale object representing the candidate language */

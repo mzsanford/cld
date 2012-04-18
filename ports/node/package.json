@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "./test.js",
-    "postinstall": "cp build/*/languagedetector.node cld.node"
+    "postinstall": "cp build/Release/languagedetector.node cld.node"
   },
   "engines": {
     "node": "~0.4.12",

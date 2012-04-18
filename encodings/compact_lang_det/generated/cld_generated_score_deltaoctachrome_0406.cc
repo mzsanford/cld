@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#include "base/basictypes.h"  // Added manually to make the COMPILE_ASSERT macro available.
 #include "encodings/compact_lang_det/ext_lang_enc.h"
 
 // score_me text [  8] ja not found in tables

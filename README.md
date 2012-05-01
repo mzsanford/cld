@@ -126,6 +126,40 @@ Both the `detectSync` and `detect` methods take an option second parameter that 
 
   * `skipWeakMatches` (`false`): Include weak matches in the results
 
+
+## Java
+
+## Ruby
+
+### Prerequisites
+
+The `libcld` C++ library must be installed (see above)
+
+### Installing
+
+    # Maven repository information in the future
+    $ git clone http://github.com/mzsanford/cld.git
+    $ cd cld/ports/java
+    # mvn test (optional)
+    $ mvn install
+
+### Example
+
+    CompactLanguageDetector compactLanguageDetector = new CompactLanguageDetector();
+    LanguageDetectionResult result = compactLanguageDetector.detect("This is my sample text");
+    if (result.isReliable()) {
+      // getProbableLocale returns a java.util.Locale
+      System.out.println("Pretty sure that's " + result.getProbableLocale().getDisplayName());
+    } else {
+      for (LanguageDetectionCandidate candidate : result.getCandidates()) {
+        System.out.println("Maybe it's " + candidate.getLocale().getDisplayName());
+      }
+    }
+
+### Documentation
+
+Full Javadocs are at [http://mzsanford.github.com/cld/ports/java/doc/apidocs](http://mzsanford.github.com/cld/ports/java/doc/apidocs).
+
 ## Python
 
 ### Prerequisites

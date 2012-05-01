@@ -129,11 +129,11 @@ Both the `detectSync` and `detect` methods take an option second parameter that 
 
 ## Java
 
-## Ruby
+As a JNI library the Java port may require some environment settings to work correctly. For example on a fresh Ubuntu install I needed to install the Oracle JDK, set `JAVA_HOME` and `LD_LIBRARY_PATH` for linking and compilation to work correctly.
 
 ### Prerequisites
 
-The `libcld` C++ library must be installed (see above)
+The `libcld` C++ library must be installed (see above). See the notes above about compilation and runtime linker environments.
 
 ### Installing
 

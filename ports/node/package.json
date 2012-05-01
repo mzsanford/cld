@@ -2,16 +2,24 @@
   "author": "Matt Sanford <matt@mzsanford.com> (http://mzsanford.com)",
   "name": "cld",
   "description": "Google Chrome Compact Language Detector",
+  "keywords": ["language", "detect", "language detection", "i18n"],
+  "homepage": "http://github.com/mzsanford/cld",
   "version": "0.1.0",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "http://github.com/mzsanford/cld.git"
   },
   "scripts": {
-    "test": "./test.js"
+    "test": "./test.js",
+    "postinstall": "cp build/Release/languagedetector.node cld.node"
   },
   "engines": {
-    "node": "~0.4.12"
+    "node": "~0.4.12",
+    "node": "~0.6"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "nodeunit": ">=0.6.2",
+    "benchmark": ">=0.3.0"
+  }
 }

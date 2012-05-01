@@ -1,0 +1,53 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.mzsanford.cld</groupId>
+    <artifactId>parentProject</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>nativeParent</artifactId>
+  
+  <name>Compact Language Detector - native parent</name>
+  
+  <packaging>pom</packaging>
+
+  <profiles>
+
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <name>mac os x</name>
+        </os>
+      </activation>
+      <modules>
+        <module>mac</module>
+      </modules>
+      <properties>
+        <build.platform>Mac_OS_X-${sun.arch.data.model}</build.platform>
+      </properties>
+    </profile>
+    
+    <!-- Unix and Linux config (all non-mac right now) -->
+    <profile>
+      <id>unix</id>
+      <activation>
+        <os>
+          <name>!mac os x</name>
+          <family>unix</family>
+        </os>
+      </activation>
+      <modules>
+        <module>unix</module>
+      </modules>
+      <properties>
+        <build.platform>${os.name}-${os.arch}-${sun.arch.data.model}</build.platform>
+      </properties>
+    </profile>
+
+  </profiles>
+
+</project>

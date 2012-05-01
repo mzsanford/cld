@@ -1,0 +1,49 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mzsanford.cld</groupId>
+  <artifactId>parentProject</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Compact Language Detector parent project</name>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+    
+  <packaging>pom</packaging>
+  <modules>
+    <module>native</module>
+    <module>java</module>
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>native-maven-plugin</artifactId>
+        </plugin>
+        
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                <!-- Hack: Include all possible native types here rather than try to guess the currently active platform -->
+                <argLine>-Djava.library.path=${basedir}/../native/mac/target:${basedir}/../native/unix/target</argLine>
+            </configuration>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+  
+</project>

@@ -2,12 +2,26 @@
 compile
 config.guess
 config.sub
+config.log
+config.status
 depcomp
 install-sh
 ltmain.sh
 missing
 mkinstalldirs
 .deps
+autom4te.cache
+Makefile
+/tests/Makefile
+libtool
+
 
 # Ports (node)
-/ports/node/build
+ports/node/build
+ports/node/node_modules
+
+# Build artifacts
+*.o
+*.lo
+*.la
+.libs

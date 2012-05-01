@@ -5,7 +5,7 @@ require 'mkmf'
 cpp_command('g++')
 
 $CFLAGS << ' -DCLD_WINDOWS ' << `pkg-config --cflags cld`.chomp
-$LDFLAGS << `pkg-config --libs cld`.chomp
+$LDFLAGS << ' ' <<`pkg-config --libs cld`.chomp
 
 # The destination
 dir_config('cld')

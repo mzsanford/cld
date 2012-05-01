@@ -37,8 +37,8 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-                <!-- TODO: This is profile (mac) specific -->
-                <argLine>-Djava.library.path=${basedir}/../native/mac/target</argLine>
+                <!-- Hack: Include all possible native types here rather than try to guess the currently active platform -->
+                <argLine>-Djava.library.path=${basedir}/../native/mac/target:${basedir}/../native/unix/target</argLine>
             </configuration>
         </plugin>
 

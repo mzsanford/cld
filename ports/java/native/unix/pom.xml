@@ -39,11 +39,11 @@
           </sources>
           <compilerStartOptions>
             <!-- TODO: Get /usr/local/include/cld from pkg-config -->
-            <compilerStartOption>-c -DCLD_WINDOWS -I/System/Library/Frameworks/JavaVM.framework/Headers -I/usr/local/include/cld </compilerStartOption>
+            <compilerStartOption>-c -DCLD_WINDOWS -I${env.JAVA_HOME}/include/linux -I/usr/local/include/cld </compilerStartOption>
           </compilerStartOptions>
           <linkerStartOptions>
             <!-- TODO: Get /usr/local/lib/cld from pkg-config -->
-            <linkerStartOption>-dynamiclib -framework JavaVM -lcld -L/usr/local/lib/cld </linkerStartOption>
+            <linkerStartOption>-shared -lcld -L/usr/local/lib/cld </linkerStartOption>
           </linkerStartOptions>
         </configuration>
       </plugin>

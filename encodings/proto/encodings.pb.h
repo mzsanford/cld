@@ -161,7 +161,7 @@ enum Encoding {
   SOFTBANK_ISO_2022_JP = 74,
   //-----------------------------------------------------------
 
-  NUM_ENCODINGS        = 75,  // Always keep this at the end. It is not a
+  NUM_ENCODINGS        = 75   // Always keep this at the end. It is not a
                               // valid Encoding enum, it is only used to
                               // indicate the total number of Encodings.
 };

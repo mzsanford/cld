@@ -227,7 +227,7 @@ bool EncFromCountryCode(const char* country_code, Encoding* enc);
 enum VisualType {
   NOT_VISUAL_DOCUMENT = 0,
   VISUAL_HEBREW_HTML,  // HTML documents in the legacy visual order.
-  CONVERTED_RTL_PDF,   // Converted RTL PDFs, which are always visual.
+  CONVERTED_RTL_PDF    // Converted RTL PDFs, which are always visual.
 };
 
 VisualType default_visualtype();

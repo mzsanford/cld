@@ -168,6 +168,6 @@ namespace CompactLangDetImpl {
   // of the input buffer.
   // Return the new, possibly-shorter length
   int CheapSqueezeInplace(char* isrc, int srclen, int ichunksize);
-};      // End namespace CompactLangDetImpl
+}      // End namespace CompactLangDetImpl
 
 #endif  // ENCODINGS_COMPACT_LANG_DET_COMPACT_LANG_DET_IMPL_H_

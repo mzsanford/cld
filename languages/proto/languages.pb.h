@@ -169,7 +169,7 @@ enum Language {
   GANDA         = 158,     // UI only.
   MANX          = 159,     // UI only.
   MONTENEGRIN   = 160,     // UI only. LangId language: SERBIAN (29)
-  NUM_LANGUAGES = 161,        // Always keep this at the end. It is not a
+  NUM_LANGUAGES = 161         // Always keep this at the end. It is not a
                               // valid Language enum. It is only used to
                               // indicate the total number of Languages.
   // NOTE: If you add a language, you will break a unittest. See the note

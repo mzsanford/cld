@@ -28,6 +28,7 @@
 #ifndef BASE_TYPE_TRAITS_H_
 #define BASE_TYPE_TRAITS_H_
 
+#include "base/basictypes.h"        // For int64 and uint64
 #include "base/template_util.h"     // For true_type and false_type
 #include <utility>                  // For pair
 
@@ -49,12 +50,10 @@ template<> struct is_integral<wchar_t> : true_type { };
 #endif
 template<> struct is_integral<short> : true_type { };
 template<> struct is_integral<unsigned short> : true_type { };
-template<> struct is_integral<int> : true_type { };
-template<> struct is_integral<unsigned int> : true_type { };
-template<> struct is_integral<long> : true_type { };
-template<> struct is_integral<unsigned long> : true_type { };
-template<> struct is_integral<long long> : true_type { };
-template<> struct is_integral<unsigned long long> : true_type { };
+template<> struct is_integral<int32> : true_type { };
+template<> struct is_integral<uint32> : true_type { };
+template<> struct is_integral<int64> : true_type { };
+template<> struct is_integral<uint64> : true_type { };
 
 
 // is_floating_point is false except for the built-in floating-point types.

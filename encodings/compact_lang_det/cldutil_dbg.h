@@ -12,9 +12,9 @@
 #include "encodings/compact_lang_det/win/cld_basictypes.h"
 #include "encodings/compact_lang_det/win/cld_commandlineflags.h"
 
-DECLARE_bool(dbgscore);
-DECLARE_bool(dbglookup);
-DECLARE_bool(dbgreli);
+DECLARE_bool(dbgscore)
+DECLARE_bool(dbglookup)
+DECLARE_bool(dbgreli)
 
 using std::string;
 

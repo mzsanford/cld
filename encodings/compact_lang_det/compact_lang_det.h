@@ -140,6 +140,6 @@ namespace CompactLangDet {
   // Return version text string
   // String is "code_version - data_scrape_date"
   const char* DetectLanguageVersion();
-};      // End namespace CompactLangDet
+}      // End namespace CompactLangDet
 
 #endif  // ENCODINGS_COMPACT_LANG_DET_COMPACT_LANG_DET_H_

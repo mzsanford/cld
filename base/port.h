@@ -12,8 +12,8 @@
 #define GG_LONGLONG(x) x##I64
 #define GG_ULONGLONG(x) x##UI64
 #else
-#define GG_LONGLONG(x) x##LL
-#define GG_ULONGLONG(x) x##ULL
+#define GG_LONGLONG(x) (int64)x
+#define GG_ULONGLONG(x) (uint64)x
 #endif
 
 // Per C99 7.8.14, define __STDC_CONSTANT_MACROS before including <stdint.h>

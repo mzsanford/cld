@@ -1,4 +1,3 @@
-// Copyright (c) 2009 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -31,14 +30,14 @@ extern const cld::CLDTableSummary kCjkBiTable_obj;
 extern const cld::CLDTableSummary kQuadTable_obj;
 extern const cld::CLDTableSummary kLongWord8Table_obj;
 
-DEFINE_bool(cld_html, false, "Print language spans in HTML on stderr");
-DEFINE_bool(cld_forcewords, false, "Score all words, in addition to quads");
+DEFINE_bool(cld_html, false, "Print language spans in HTML on stderr")
+DEFINE_bool(cld_forcewords, false, "Score all words, in addition to quads")
 
-DEFINE_bool(cld_showme, false, "Put squeeze/repeat points into HTML text");
-DEFINE_bool(cld_echotext, false, "Print each scriptspan to stderr");
-DEFINE_int32(cld_textlimit, 160, "Examine only initial n KB of actual text");
+DEFINE_bool(cld_showme, false, "Put squeeze/repeat points into HTML text")
+DEFINE_bool(cld_echotext, false, "Print each scriptspan to stderr")
+DEFINE_int32(cld_textlimit, 160, "Examine only initial n KB of actual text")
 // 20 quadgrams is about 80 bytes or about 12 words in real text
-DEFINE_int32(cld_smoothwidth, 20, "Smoothing window width in quadgrams");
+DEFINE_int32(cld_smoothwidth, 20, "Smoothing window width in quadgrams")
 
 
 static const int kLangHintInitial = 12;  // Boost language by N initially
@@ -998,9 +997,9 @@ int CompactLangDetImpl::CheapSqueezeInplace(char* isrc,
         skipping = true;
         if (FLAGS_cld_showme) {
           // Mark the deletion point with black square U+25A0
-          *dst++ = 0xe2;
-          *dst++ = 0x96;
-          *dst++ = 0xa0;
+          *dst++ = (char)0xe2;
+          *dst++ = (char)0x96;
+          *dst++ = (char)0xa0;
           *dst++ = ' ';
         }
         if (dst == isrc) {
@@ -1742,7 +1741,7 @@ static const char kIsDigit[256] = {
 void MakeChar4(const char* str, char* norm) {
   memcpy(norm, "____", 4);     // four underscores
   int l_ptr = 0;
-  for (int i = 0; i < strlen(str); ++i) {
+  for (uint32 i = 0; i < strlen(str); ++i) {
     uint8 uc = static_cast<uint8>(str[i]);
     if (kIsAlpha[uc] | kIsDigit[uc]) {
       if (l_ptr < 4) {                  // Else ignore

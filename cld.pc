@@ -7,6 +7,6 @@ includedir=${prefix}/include
 Name: cld
 Description: Compact Language Detector
 Requires: 
-Version: 0.1
+Version: 0.1.2
 Libs: -L${libdir}/cld -lcld
 Cflags: -I${includedir}/cld 

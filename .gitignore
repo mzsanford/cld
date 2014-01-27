@@ -1,12 +1,7 @@
 # Autotools
 compile
-config.guess
-config.sub
 config.log
 config.status
-depcomp
-install-sh
-ltmain.sh
 missing
 mkinstalldirs
 .deps
@@ -19,6 +14,12 @@ libtool
 # Ports (node)
 ports/node/build
 ports/node/node_modules
+
+# Ports (python)
+ports/python/testData.pyc
+
+# Ports (ruby)
+ports/ruby/pkg/
 
 # Build artifacts
 *.o

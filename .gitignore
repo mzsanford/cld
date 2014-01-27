@@ -2,8 +2,6 @@
 compile
 config.log
 config.status
-depcomp
-ltmain.sh
 missing
 mkinstalldirs
 .deps

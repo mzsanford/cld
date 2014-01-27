@@ -74,6 +74,7 @@ kTeststr_it_Latn = " a causa di un intervento di manutenzione del sistema fino a
 kTeststr_iu_Cans = "ᐃᑯᒪᒻᒪᑦ ᕿᓈᖏᓐᓇᓲᖑᒻᒪᑦ ᑎᑎᖅᑕᓕᒫᖅᓃᕕᑦ ᑎᑦᕆᐊᑐᓐᖏᑦᑕᑎᑦ ᑎᑎᖅᑕᑉᐱᑦ ᓯᕗᓂᖓᓂ ᑎᑎᖅᖃᖅ ᑎᑎᕆᐊᑐᓐᖏᑕᐃᑦ ᕿᓂᓲᖑᔪᒍᑦ ᑎᑎᖅᑕᓕᒫᖅᓃᕕᑦ"
 kTeststr_iw_Hebr = " או לערוך את העדפות ההפצה אנא עקוב אחרי השלבים הבאים כנס לחשבון האישי שלך ב"
 kTeststr_ja_Hani = " このペ ジでは アカウントに指定された予算の履歴を一覧にしています それぞれの項目には 予算額と特定期間のステ タスが表示されます 現在または今後の予算を設定するには"
+kTeststr_ja_issue_22 = "1/15 HR Div.Q&CS Dept.全体MTG 開催\n \n 1月15日(水)、赤溜オーディトリアムにてHR Div.Q&CS Dept.の全体MTGが開催されました。\n アジェンダは以下のとおりです。\n ・Q＆CSってそもそも何のための組織だっけ？：夏目通伸さん\n ・竹市さんより：竹市栄治さん\n ・製品顧客横断的な動きについて：伊藤秀也さん\n ・@SUPPORT案件管理について：渡部裕さん\n \n その中から、今回は夏目通伸さんからのお話についてご紹介します。\n 2014年初めての全体MTGにて、「Q＆CSってそもそも何のための組織だっけ？」というタイトルのもと、Q＆CSが組織としてやろうとしていること、やるべきことを話されました。"
 kTeststr_jw_Latn = " account ten server niki kalian username meniko tanpo judul cacahe account nggonanmu wes pol pesen mu wes diguwak pesenan mu wes di simpen sante wae pesenan mu wes ke kirim mbuh tekan ora pesenan e ke kethok pesenan mu wes ke kirim mbuh tekan ora pesenan"
 kTeststr_ka_Geor = " ა ბირთვიდან მიღებული ელემენტი მენდელეევის პერიოდულ სიტემაში გადაინაცვლებს ორი უჯრით"
 kTeststr_kha_Latn = " kaba jem jai sa sngap thuh ia ki bynta ba sharum naka sohbuin jong phi nangta sa pynhiar ia ka kti kadiang jong phi sha ka krung jong phi bad da kaba pyndonkam kumjuh ia ki shympriahti jong phi sa sngap thuh shapoh ka tohtit jong phi pyndonkam ia kajuh ka"

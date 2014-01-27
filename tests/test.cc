@@ -9,7 +9,7 @@
 	printf("OK .......... %s == %s\n",    \
 	       expect, actual);               \
   } else {                                \
-	fprintf(stderr, "ERROR: %s\n", msg);  \
+	fprintf(stderr, "ERROR (%s != %s): %s\n", expect, actual, msg);  \
     return 1;                             \
   }
 
@@ -48,6 +48,20 @@ const char* kTeststr_ks =
   "यक्षेत्रे दे"
   "श अस् ति सम्"
   " बद्घ विषय";
+
+// See Github issue #22
+const char* kTeststr_ja =
+  "1/15 HR Div.Q&CS Dept.全体MTG 開催\n"
+  "\n"
+  "1月15日(水)、赤溜オーディトリアムにてHR Div.Q&CS Dept.の全体MTGが開催されました。\n"
+  "アジェンダは以下のとおりです。\n"
+  "・Q＆CSってそもそも何のための組織だっけ？：夏目通伸さん\n"
+  "・竹市さんより：竹市栄治さん\n"
+  "・製品顧客横断的な動きについて：伊藤秀也さん\n"
+  "・@SUPPORT案件管理について：渡部裕さん\n"
+  "\n"
+  "その中から、今回は夏目通伸さんからのお話についてご紹介します。\n"
+  "2014年初めての全体MTGにて、「Q＆CSってそもそも何のための組織だっけ？」というタイトルのもと、Q＆CSが組織としてやろうとしていること、やるべきことを話されました。";
 
 int main(int argc, char **argv) {
     bool is_plain_text = true;
@@ -102,4 +116,22 @@ int main(int argc, char **argv) {
                                           &is_reliable);
 	ASSERT_STRING_EQUAL("HINDI", LanguageName(lang), "Incorrect language name, expected HINDI");
 	ASSERT_STRING_EQUAL("hi", LanguageCode(lang), "Incorrect language code, expected 'hi'");
+
+    src = kTeststr_ja;
+    lang = CompactLangDet::DetectLanguage(0,
+                                          src, strlen(src),
+                                          is_plain_text,
+                                          do_allow_extended_languages,
+                                          do_pick_summary_language,
+                                          do_remove_weak_matches,
+                                          tld_hint,
+                                          encoding_hint,
+                                          language_hint,
+                                          language3,
+                                          percent3,
+                                          normalized_score3,
+                                          &text_bytes,
+                                          &is_reliable);
+  ASSERT_STRING_EQUAL("Japanese", LanguageName(lang), "Incorrect language name, expected JAPANESE");
+  ASSERT_STRING_EQUAL("ja", LanguageCode(lang), "Incorrect language code, expected 'ja'");
 }

@@ -1,6 +1,5 @@
 # Autotools
 compile
-config.guess
 config.log
 config.status
 depcomp

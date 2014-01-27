@@ -85,7 +85,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
     PyErr_Format(CLDError, "Unrecognized encoding hint code (got '%s'); see cld.ENCODINGS for recognized encodings", hintEncoding);
     return NULL;
   }
-    
+
   bool isReliable;
   Language language3[3];
   int percent3[3];
@@ -263,7 +263,7 @@ initcld() {
 
   // Steals ref:
   PyModule_AddObject(m, "DETECTED_LANGUAGES", pyDetLangs);
-  
+
   CLDError = PyErr_NewException((char *) "cld.error", NULL, NULL);
   // Steals ref:
   PyModule_AddObject(m, "error", CLDError);

@@ -22,7 +22,7 @@ class TestCLD(unittest.TestCase):
     if VERBOSE:
       print
       print 'Test: %s [%d bytes]' % (expectedLangName, len(s))
-    detectedLangName, detectedLangCode, isReliable, textBytesFound, details = cld.detect(s, pickSummaryLanguage=True, removeWeakMatches=False)
+    detectedLangName, detectedLangCode, isReliable, textBytesFound, details = cld.detect(s, pickSummaryLanguage=True, removeWeakMatches=False, isPlainText=True)
     if VERBOSE:
       print '  detected: %s' % detectedLangName
       print '  reliable: %s' % (isReliable != 0)
@@ -40,7 +40,7 @@ class TestCLD(unittest.TestCase):
           for i, name in enumerate(l):
             print '  PyTuple_SET_ITEM(pyDetLangs, %d, PyString_FromString("%s"));' % (i, name)
 
-    self.assertEquals(expectedLangName, detectedLangName, '%s != %s; bytes=%d details: %s' % (detectedLangName, expectedLangName, textBytesFound, str(details)))
+    self.assertEquals(expectedLangName, detectedLangName, '%s != %s; bytes=%s details: %s' % (detectedLangName, expectedLangName, textBytesFound, str(details)))
     self.assertTrue(not shouldBeReliable or isReliable)
 
   def testAFRIKAANS(self):

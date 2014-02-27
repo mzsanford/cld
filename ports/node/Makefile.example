@@ -1,0 +1,32 @@
+# Makefile to make it clear how to build this project
+
+NODE_GYP_COMMAND=node_modules/node-gyp/bin/node-gyp.js
+#NODE_GYP_ARGS=--verbose
+NODE_GYP_ARGS=
+
+build: build/Makefile
+	$(NODE_GYP_COMMAND) $(NODE_GYP_ARGS) build
+
+test: build/Release/languagedetector.node
+	node test.js
+
+build/Release/languagedetector.node: build
+
+build/Makefile: configure
+
+clean:
+	$(NODE_GYP_COMMAND) $(NODE_GYP_ARGS) clean
+
+npm:
+	npm install
+
+rebuild:
+	$(NODE_GYP_COMMAND) $(NODE_GYP_ARGS) rebuild
+
+configure:
+	$(NODE_GYP_COMMAND) $(NODE_GYP_ARGS) configure
+
+install:
+	$(NODE_GYP_COMMAND) $(NODE_GYP_ARGS) install
+
+

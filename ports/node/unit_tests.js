@@ -1,7 +1,7 @@
 
-var path = require('path');
+var fs = require('fs');
 var LanguageDetector;
-if (path.existsSync("./build/Release")) {
+if (fs.existsSync("./build/Release")) {
   LanguageDetector = require("./build/Release/languagedetector.node").LanguageDetector;
 } else {
   LanguageDetector = require("./build/default/languagedetector.node").LanguageDetector;
@@ -31,7 +31,7 @@ exports['detect sync'] = {
 		test.equal(detector.detectSync(ambig, { tld: "jp" }), "ja");
 		test.done();
 	}
-}; 
+};
 
 exports['detect async'] = {
 	simple: function(test) {

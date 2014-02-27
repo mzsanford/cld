@@ -15,13 +15,6 @@ using namespace v8;
 
 #define NUM_POSSIBLE_LANGUAGES 3
 
-#if NODE_VERSION_AT_LEAST(0, 6, 0)
-#define NODE_0_6_X
-#define CALLBACK_TYPE void
-#else
-#define CALLBACK_TYPE int
-#endif
-
 class LanguageDetector: ObjectWrap
 {
 private:
@@ -36,7 +29,7 @@ private:
 	  delete [] buf;
 	  return ret;
 	}
-	
+
 	static bool optionalBooleanArg(const Arguments& args, int position, const char* key, bool default_value)
 	{
 		bool result = default_value;
@@ -51,7 +44,7 @@ private:
 		}
 		return result;
 	}
-	
+
 	static const char* optionalStringArg(const Arguments& args, int position, const char* key, const char* default_value)
 	{
 		const char* result = default_value;
@@ -109,7 +102,7 @@ public:
     HandleScope scope;
   	Handle<String> v8text = args[0]->ToString();
   	const char *src = GetString(v8text).c_str();
-	
+
   	// Parse options.
   	bool is_plain_text = !optionalBooleanArg(args, 1, "html", false);
     bool do_allow_extended_languages = optionalBooleanArg(args, 1, "allowExtendedLanguages", true);
@@ -159,7 +152,7 @@ public:
     LanguageDetector *ld;
 
 	  std::string source_text;
-	  std::string tld_hint;	
+	  std::string tld_hint;
 	  bool is_plain_text;
     bool do_allow_extended_languages;
     bool do_pick_summary_language;
@@ -174,7 +167,7 @@ public:
 		HandleScope scope;
 		int options_arg_idx = -1;
 		Local<Function> cb;
-		
+
 		if (args.Length() == 3 && args[2]->IsFunction())
 		{
 			options_arg_idx = 1;
@@ -192,35 +185,40 @@ public:
 	  LanguageDetector* ld = ObjectWrap::Unwrap<LanguageDetector>(args.This());
 		language_detect_baton_t *baton = new language_detect_baton_t();
 	  baton->ld = ld;
-		
+
 		baton->source_text = GetString(args[0]->ToString());
-		baton->tld_hint =  optionalStringArg(args, options_arg_idx, "tld", "");		
+		baton->tld_hint =  optionalStringArg(args, options_arg_idx, "tld", "");
 		baton->is_plain_text = !optionalBooleanArg(args, options_arg_idx, "html", false);
     baton->do_allow_extended_languages = optionalBooleanArg(args, options_arg_idx, "allowExtendedLanguages", true);
     baton->do_pick_summary_language = optionalBooleanArg(args, options_arg_idx, "pickSummaryLanguage", false);
     baton->do_remove_weak_matches = optionalBooleanArg(args, options_arg_idx, "skipWeakMatches", false);
     // baton->tld_hint =  Persistent<String>::New(optionalStringArg(args, options_arg_idx, "tld", NULL));
     baton->cb = Persistent<Function>::New(cb);
-	
+
 	  ld->Ref();
-		eio_custom(EIO_Detect, EIO_PRI_DEFAULT, EIO_AfterDetect, baton);
-		ev_ref(EV_DEFAULT_UC);
+
+		// eio_custom(EIO_Detect, EIO_PRI_DEFAULT, EIO_AfterDetect, baton);
+		// ev_ref(EV_DEFAULT_UC);
+
+    uv_work_t *req = new uv_work_t;
+    req->data = baton;
+
+    uv_queue_work(uv_default_loop(), req, uv_detect, uv_after_detect);
 
 		return Undefined();
   }
 
-  // Background thread: The asynch portion
-  static CALLBACK_TYPE EIO_Detect(eio_req *req)
+  static void uv_detect(uv_work_t *request)
   {
-    language_detect_baton_t *baton = static_cast<language_detect_baton_t *>(req->data);
+    language_detect_baton_t *baton = static_cast<language_detect_baton_t *>(request->data);
     baton->result = new language_detect_result_t();
 
-  	const char *src = baton->source_text.c_str();
-  	const char *tld_hint = NULL;
-  	if (!baton->tld_hint.empty())
-  	{
-  		tld_hint = baton->tld_hint.c_str();
-  	}
+    const char *src = baton->source_text.c_str();
+    const char *tld_hint = NULL;
+    if (!baton->tld_hint.empty())
+    {
+      tld_hint = baton->tld_hint.c_str();
+    }
 
     int encoding_hint = UNKNOWN_ENCODING;
     Language language_hint = UNKNOWN_LANGUAGE;
@@ -244,40 +242,34 @@ public:
 
     std::string lang_str(LanguageCode(lang));
     baton->result->language_code = lang_str;
-
-#ifndef NODE_0_6_X
-    return 0;
-#endif
   }
 
-  // Main thread: The return portion after the async portion is completed
-  static int EIO_AfterDetect(eio_req *req)
+  static void uv_after_detect(uv_work_t *request, int status)
   {
     HandleScope scope;
-    language_detect_baton_t *baton = static_cast<language_detect_baton_t *>(req->data);
-    ev_unref(EV_DEFAULT_UC);
+    language_detect_baton_t *baton = static_cast<language_detect_baton_t *>(request->data);
     baton->ld->Unref();
 
     // Get the result information from the baton
     Local<Value> argv[1];
-	Local<Object> resultObject = Object::New();
-	resultObject->Set(String::New("languageCode"), String::New(baton->result->language_code.c_str()));
-	resultObject->Set(String::New("reliable"), Boolean::New(baton->result->reliable));
+    Local<Object> resultObject = Object::New();
+    resultObject->Set(String::New("languageCode"), String::New(baton->result->language_code.c_str()));
+    resultObject->Set(String::New("reliable"), Boolean::New(baton->result->reliable));
 
-    Handle<Array> detailArray = Array::New(NUM_POSSIBLE_LANGUAGES);
-	for (int i=0; i < NUM_POSSIBLE_LANGUAGES; i++)
-	{
-		// Build a detail object
-		Local<Object> detailObject = Object::New();
-		std::string lang_str(LanguageCode(baton->result->languages[i]));
-		detailObject->Set(String::New("languageCode"), String::New(lang_str.c_str()));
-		detailObject->Set(String::New("normalizedScore"), Number::New(baton->result->normalized_scores[i]));
-		detailObject->Set(String::New("percentScore"), Number::New(baton->result->percents[i]));
-		// Put the result on the details array
-		detailArray->Set(i, detailObject);
-	}
-	resultObject->Set(String::New("details"), detailArray);
-	argv[0] = resultObject;
+      Handle<Array> detailArray = Array::New(NUM_POSSIBLE_LANGUAGES);
+    for (int i=0; i < NUM_POSSIBLE_LANGUAGES; i++)
+    {
+      // Build a detail object
+      Local<Object> detailObject = Object::New();
+      std::string lang_str(LanguageCode(baton->result->languages[i]));
+      detailObject->Set(String::New("languageCode"), String::New(lang_str.c_str()));
+      detailObject->Set(String::New("normalizedScore"), Number::New(baton->result->normalized_scores[i]));
+      detailObject->Set(String::New("percentScore"), Number::New(baton->result->percents[i]));
+      // Put the result on the details array
+      detailArray->Set(i, detailObject);
+    }
+    resultObject->Set(String::New("details"), detailArray);
+    argv[0] = resultObject;
 
 
     TryCatch try_catch;
@@ -291,7 +283,6 @@ public:
     baton->cb.Dispose();
 
     delete baton;
-    return 0;
   }
 
 };

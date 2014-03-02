@@ -14,8 +14,7 @@
     "postinstall": "cp build/Release/languagedetector.node cld.node"
   },
   "engines": {
-    "node": "~0.4.12",
-    "node": "~0.6"
+    "node": "~0.10"
   },
   "dependencies": {},
   "devDependencies": {

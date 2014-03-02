@@ -295,5 +295,5 @@ extern "C" {
     LanguageDetector::Init(target);
   }
 
-  NODE_MODULE(languagedetector, init);
+  NODE_MODULE(cld, init);
 }

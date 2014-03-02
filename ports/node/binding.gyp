@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "languagedetector",
+      "target_name": "cld",
       "sources": [ "languagedetector.cc" ],
       "defines": [
         "_FILE_OFFSET_BITS=64",

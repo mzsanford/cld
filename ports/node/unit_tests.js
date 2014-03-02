@@ -2,9 +2,9 @@
 var fs = require('fs');
 var LanguageDetector;
 if (fs.existsSync("./build/Release")) {
-  LanguageDetector = require("./build/Release/languagedetector.node").LanguageDetector;
+  LanguageDetector = require("./build/Release/cld.node").LanguageDetector;
 } else {
-  LanguageDetector = require("./build/default/languagedetector.node").LanguageDetector;
+  LanguageDetector = require("./build/default/cld.node").LanguageDetector;
 }
 var detector = new LanguageDetector();
 

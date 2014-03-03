@@ -14,6 +14,7 @@ libtool
 # Ports (node)
 ports/node/build
 ports/node/node_modules
+ports/node/cld.node
 
 # Ports (python)
 ports/python/testData.pyc

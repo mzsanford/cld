@@ -76,19 +76,22 @@ includes even more examples.
 
 ### Prerequisites
 
-The `libcld` C++ library must be installed (see above)
+The `libcld` C++ library must be installed (see above). Tested with node version `10.0.26`.
 
 ### Installing
 
-    # 'npm install ...' in the near future
+    $ cd /PATH/FOR/CLD
     $ git clone http://github.com/mzsanford/cld.git
     $ cd cld/ports/node
-    $ node-waf configure build
-    $ npm install
+    $ make -f Makefile.example test
+    $ cd PATH/FOR/YOUR/PROJECT
+    $ npm install /PATH/FOR/CLD/cld/ports/node
 
 ### Example
 
-    var LanguageDetector = require('languagedetector').LanguageDetector;
+Assuming you're in `/PATH/FOR/YOUR/PROJECT` above:
+
+    var LanguageDetector = require("cld/cld.node").LanguageDetector;
     var detector = new LanguageDetector();
 
     // Sync - Returns two letter language code of the most likely candidate language
@@ -117,7 +120,7 @@ Both the `detectSync` and `detect` methods take an option second parameter that 
         detector.detectSync(ambig)                  #=> "zh-TW"
         detector.detectSync(ambig, { tld: "cn" })   #=> "zh"
         detector.detectSync(ambig, { tld: "jp" })   #=> "ja"
-                    
+
   * `html` (`false`):  The string to be processed HTML. If this is the case then markup will be ignored in the calculations.
 
   * `allowExtendedLanguages` (`true`): Return language from outside of the core set of supported languages (where wuality is not as good)

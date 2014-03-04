@@ -20,6 +20,7 @@
   "devDependencies": {
     "nodeunit": ">=0.6.2",
     "benchmark": ">=0.3.0",
-    "node-gyp": ">=0.12.2"
+    "node-gyp": ">=0.12.2",
+    "async": ">=0.2.10"
   }
 }

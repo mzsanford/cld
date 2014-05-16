@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mzsanford.cld;
 
@@ -20,6 +20,12 @@ public class CompactLanguageDetectorTest {
     public void testConstructor() {
         CompactLanguageDetector compactLanguageDetector = new CompactLanguageDetector();
         assertNotNull(compactLanguageDetector);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testDetectNull() {
+        CompactLanguageDetector compactLanguageDetector = new CompactLanguageDetector();
+        compactLanguageDetector.detect(null);
     }
 
 }

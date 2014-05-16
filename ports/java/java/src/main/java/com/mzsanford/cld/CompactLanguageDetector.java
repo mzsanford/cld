@@ -19,6 +19,9 @@ public class CompactLanguageDetector {
      * @return result object with identification details
      */    
     public LanguageDetectionResult detect(String text) {
+        if (text == null) {
+          throw new IllegalArgumentException("Text cannot be null.");
+        }
         // Native call.
         LanguageDetectionResult result = detectLanguageDetails(text, true, true, false, true, null);
         return result;

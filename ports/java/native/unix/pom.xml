@@ -39,7 +39,7 @@
           </sources>
           <compilerStartOptions>
             <!-- TODO: Get /usr/local/include/cld from pkg-config -->
-            <compilerStartOption>-c -DCLD_WINDOWS -I${env.JAVA_HOME}/include/linux -I/usr/local/include/cld </compilerStartOption>
+            <compilerStartOption>-c -fPIC -DCLD_WINDOWS -I${env.JAVA_HOME}/include/linux -I/usr/local/include/cld </compilerStartOption>
           </compilerStartOptions>
           <linkerStartOptions>
             <!-- TODO: Get /usr/local/lib/cld from pkg-config -->

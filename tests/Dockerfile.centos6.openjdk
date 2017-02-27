@@ -3,11 +3,10 @@
 #   docker build -t test/cld:centos6-openjdk -f tests/Dockerfile.centos6.openjdk .
 FROM  centos:6
 
-RUN   yum install -y java-1.8.0-openjdk
-
-# TODO: Combine all yum once I'm no longer testing
-RUN   yum install -y wget gcc
-RUN   yum install -y gcc++ *gcc-c++*
+RUN   yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel \
+                     wget \
+                     gcc gcc++ *gcc-c++*
+RUN   yum groupinstall -y 'Development Tools'
 
 ENV    M2_HOME /usr/local/apache-maven/apache-maven-3.2.1
 ENV    M2      $M2_HOME/bin
@@ -19,10 +18,6 @@ RUN   mkdir /usr/local/apache-maven && \
       wget http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz && \
       tar xvf apache-maven-3.2.1-bin.tar.gz && \
       rm apache-maven-3.2.1-bin.tar.gz
-
-
-# TODO: Combine all yum once I'm no longer testing
-RUN   yum groupinstall -y 'Development Tools'
 
 ENV    AUTOCONF_VERSION 2.69
 RUN    cd /tmp && \
@@ -68,6 +63,9 @@ RUN      cd /opt/cld && \
          make && \
          make check && \
          make install
+
+RUN      echo "/usr/local/lib/cld" >> /etc/ld.so.conf.d/cld.conf && \
+         ldconfig
 
 # Java build and test
 RUN      cd /opt/cld/ports/java && \

@@ -149,7 +149,7 @@ libcld_la_OBJECTS = $(am_libcld_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
-am__v_lt_1 = 
+am__v_lt_1 =
 libcld_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(libcld_la_LDFLAGS) $(LDFLAGS) -o $@
@@ -160,11 +160,11 @@ am__v_P_1 = :
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN     " $@;
-am__v_GEN_1 = 
+am__v_GEN_1 =
 AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
-am__v_at_1 = 
+am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -178,7 +178,7 @@ LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 AM_V_CXX = $(am__v_CXX_@AM_V@)
 am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
 am__v_CXX_0 = @echo "  CXX     " $@;
-am__v_CXX_1 = 
+am__v_CXX_1 =
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
@@ -186,7 +186,7 @@ CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
-am__v_CXXLD_1 = 
+am__v_CXXLD_1 =
 SOURCES = $(libcld_la_SOURCES)
 DIST_SOURCES = $(libcld_la_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
@@ -401,7 +401,7 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = gnu
 AM_CPPFLAGS = -I. -Ibase -DCLD_WINDOWS
 SUBDIRS = . tests
-pkglib_LTLIBRARIES = libcld.la 
+pkglib_LTLIBRARIES = libcld.la
 pkginclude_HEADERS = encodings/compact_lang_det/*.h
 langincludedir = $(includedir)/cld/languages/public
 langinclude_HEADERS = languages/public/*.h
@@ -415,7 +415,7 @@ encprotoincludedir = $(includedir)/cld/encodings/proto
 encprotoinclude_HEADERS = encodings/proto/*.h
 baseincludedir = $(includedir)/cld/base
 baseinclude_HEADERS = base/*.h
-noinst_HEADERS = 
+noinst_HEADERS =
 libcld_la_SOURCES = encodings/compact_lang_det/cldutil.cc \
 	encodings/compact_lang_det/cldutil_dbg_empty.cc \
 	encodings/compact_lang_det/compact_lang_det.cc \
@@ -435,7 +435,7 @@ libcld_la_SOURCES = encodings/compact_lang_det/cldutil.cc \
 	encodings/compact_lang_det/win/cld_utf8utils_windows.cc \
 	encodings/internal/encodings.cc \
 	languages/internal/languages.cc
-libcld_la_LDFLAGS = -version 0:1:0 
+libcld_la_LDFLAGS = -version 0:1:0
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = cld.pc
 all: all-recursive
@@ -514,7 +514,7 @@ clean-pkglibLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libcld.la: $(libcld_la_OBJECTS) $(libcld_la_DEPENDENCIES) $(EXTRA_libcld_la_DEPENDENCIES) 
+libcld.la: $(libcld_la_OBJECTS) $(libcld_la_DEPENDENCIES) $(EXTRA_libcld_la_DEPENDENCIES)
 	$(AM_V_CXXLD)$(libcld_la_LINK) -rpath $(pkglibdir) $(libcld_la_OBJECTS) $(libcld_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
@@ -1316,7 +1316,7 @@ uninstall-am: uninstall-baseincludeHEADERS uninstall-encincludeHEADERS \
 
 
 %Dictionary.cc %Dictionary.h:$(pkginclude_HEADERS) %LinkDef.hh
-	@ROOTCINT@ -f $*.cc -c $(AM_CPPLFAGS) $(INCLUDES) $^ 
+	@ROOTCINT@ -f $*.cc -c $(AM_CPPLFAGS) $(INCLUDES) $^
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

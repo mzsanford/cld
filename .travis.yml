@@ -4,9 +4,8 @@ services:
   - docker
 
 env:
-  - TEST_OS=centos6
-  - TEST_JDK=openjdk
-  - TEST_JDK=oraclejdk
+  - TEST_OS=centos6 TEST_JDK=openjdk
+  - TEST_OS=centos6 TEST_JDK=oraclejdk
 
 before_install:
   - docker build -t test/cld:${TEST_OS}-${TEST_JDK} -f tests/Dockerfile.${TEST_OS}.${TEST_JDK} .

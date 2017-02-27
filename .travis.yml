@@ -8,7 +8,13 @@ env:
   - TEST_OS=centos6 TEST_JDK=oraclejdk
 
 before_install:
-  - docker build -t test/cld:${TEST_OS}-${TEST_JDK} -f tests/Dockerfile.${TEST_OS}.${TEST_JDK} .
+  - docker build -t mzsanford/cld:${TEST_OS}-${TEST_JDK} -f mzsanford/Dockerfile.${TEST_OS}.${TEST_JDK} .
 
 script:
-  - docker run -it --rm test/cld:${TEST_OS}-${TEST_JDK} /bin/bash -c "cd /opt/cld/ports/java && mvn test"
+  - docker run -it --rm mzsanford/cld:${TEST_OS}-${TEST_JDK} /bin/bash -c "cd /opt/cld/ports/java && mvn test"
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "docker_tests" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push mzsanford/cld:${TEST_OS}-${TEST_JDK};
+    fi

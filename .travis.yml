@@ -12,4 +12,4 @@ before_install:
   - docker build -t test/cld:${TEST_OS}-${TEST_JDK} -f tests/Dockerfile.${TEST_OS}.${TEST_JDK} .
 
 script:
-  - docker run -it --rm test/cld:centos6-openjdk /bin/bach -c "cd /opt/cld/ports/java && mvn test"
+  - docker run -it --rm test/cld:${TEST_OS}-${TEST_JDK} /bin/bash -c "cd /opt/cld/ports/java && mvn test"

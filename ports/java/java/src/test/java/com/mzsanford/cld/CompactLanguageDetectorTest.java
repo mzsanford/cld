@@ -28,4 +28,11 @@ public class CompactLanguageDetectorTest {
         compactLanguageDetector.detect(null);
     }
 
+    public void testDetection() {
+      CompactLanguageDetector compactLanguageDetector = new CompactLanguageDetector();
+      LanguageDetectionResult result = compactLanguageDetector.detect("I am the very measure of a modern major general");
+      assertNotNull(result);
+      assertEquals("en", result.probableLocale);
+    }
+
 }

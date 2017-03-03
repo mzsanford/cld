@@ -48,6 +48,7 @@ public class LanguageDetectionResult {
      */
     public List<LanguageDetectionCandidate> getCandidates() {
         // Take the hit for a copy to prevent changes.
+        if (candidates == null) return null;
         return Collections.unmodifiableList(candidates);
     }
 

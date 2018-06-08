@@ -27,3 +27,9 @@ ports/ruby/pkg/
 *.lo
 *.la
 .libs
+*/.dirstamp
+
+# Test artifacts
+tests/test-suite.log
+tests/test.log
+tests/test.trs

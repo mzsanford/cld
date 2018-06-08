@@ -1,10 +1,16 @@
 
-build:
-	python -u setup.py build
+# Change here for python3
+PYTHON=python
+
+build: setup.py pycldmodule.cc
+	$(PYTHON) -u setup.py build
+
+clean:
+	$(PYTHON) -u setup.py clean
 
 install: build
-	sudo python -u setup.py install
+	sudo $(PYTHON) -u setup.py install
 
 # Really? Can't test without install?
 test: install
-	python -u test.py
+	$(PYTHON) -u test.py

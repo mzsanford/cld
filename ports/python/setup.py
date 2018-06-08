@@ -1,19 +1,33 @@
 from distutils.core import setup, Extension
-import commands
+import sys
+import subprocess
 
-def pkgconfig(*packages, **kw):
+PY3K = sys.version_info >= (3, 0)
+
+def pkgconfig_win(*packages, **kw):
     return { 'define_macros': [('WIN32',None)],
              'libraries': packages,
              'include_dirs': ['..'] }
 
-def pkgconfig(*packages, **kw):
+def byte2str(input):
+    if PY3K:
+        return input.decode('utf-8')
+    else:
+        return str(input)
+
+def pkgconfig(*packages):
+    kw = {}
     flag_map = {'-I': 'include_dirs', '-L': 'library_dirs', '-l': 'libraries'}
-    for token in commands.getoutput("pkg-config --libs --cflags %s" % ' '.join(packages)).split():
-        kw.setdefault(flag_map.get(token[:2]), []).append(token[2:])
+    cmd = "pkg-config --libs --cflags %s" % ' '.join(packages)
+    for token in subprocess.check_output(cmd, shell=True).split():
+        k = byte2str(token[:2])
+        v = byte2str(token[2:])
+        kw[flag_map[k]] = [v]
     return kw
 
-module = Extension('cld',
-                   ['pycldmodule.cc'],
+module = Extension(name='cld',
+                   sources=['pycldmodule.cc'],
+                   extra_compile_args=['-Wno-unused-local-typedef'],
                    **pkgconfig('cld'))
 
 setup(name='cld',

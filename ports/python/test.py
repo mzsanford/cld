@@ -20,27 +20,27 @@ class TestCLD(unittest.TestCase):
 
   def runOne(self, expectedLangName, s, shouldBeReliable=True):
     if VERBOSE:
-      print
-      print 'Test: %s [%d bytes]' % (expectedLangName, len(s))
+      print()
+      print('Test: %s [%d bytes]' % (expectedLangName, len(s)))
     detectedLangName, detectedLangCode, isReliable, textBytesFound, details = cld.detect(s, pickSummaryLanguage=True, removeWeakMatches=False)
     if VERBOSE:
-      print '  detected: %s' % detectedLangName
-      print '  reliable: %s' % (isReliable != 0)
-      print '  textBytes: %s' % textBytesFound
-      print '  details: %s' % str(details)
+      print('  detected: %s' % detectedLangName)
+      print('  reliable: %s' % (isReliable != 0))
+      print('  textBytes: %s' % textBytesFound)
+      print('  details: %s' % str(details))
       self.langsSeen.add(expectedLangName)
       for tup in details:
         self.detLangsSeen.add(tup[0])
-      print '  %d langs; %d ever detected' % (len(self.langsSeen), len(self.detLangsSeen))
+      print('  %d langs; %d ever detected' % (len(self.langsSeen), len(self.detLangsSeen)))
 
       if False:
         if expectedLangName == 'YIDDISH':
           l = list(self.detLangsSeen)
           l.sort()
           for i, name in enumerate(l):
-            print '  PyTuple_SET_ITEM(pyDetLangs, %d, PyString_FromString("%s"));' % (i, name)
+            print('  PyTuple_SET_ITEM(pyDetLangs, %d, PyString_FromString("%s"));' % (i, name))
         
-    self.assertEquals(expectedLangName, detectedLangName, '%s != %s; details: %s' % (detectedLangName, expectedLangName, str(details)))
+    self.assertEqual(expectedLangName, detectedLangName, '%s != %s; details: %s' % (detectedLangName, expectedLangName, str(details)))
     self.assertTrue(not shouldBeReliable or isReliable)
 
   def testAFRIKAANS(self):

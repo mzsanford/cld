@@ -11,6 +11,12 @@
 #include "base/string_util.h"
 #include "cld_encodings.h"
 
+#if PY_MAJOR_VERSION >= 3
+#define PYSTR(s) PyUnicode_FromString(s)
+#else
+#define PYSTR(s) PyString_FromString(s)
+#endif
+
 static PyObject *CLDError;
 
 static bool EncodingFromName(const char *name, Encoding *answer) {
@@ -141,17 +147,45 @@ static PyMethodDef CLDMethods[] = {
   {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "cld",
+        NULL,
+        NULL,
+        CLDMethods,
+        NULL,
+        NULL,
+        NULL,
+        NULL
+};
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+PyMODINIT_FUNC
+PyInit_cld(void) {
+#else
 PyMODINIT_FUNC
 initcld() {
-  PyObject* m = Py_InitModule("cld", CLDMethods);
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+  PyObject *m = PyModule_Create(&moduledef);
+  if (m == NULL) {
+    return NULL;
+  }
+#else
+  PyObject *m = Py_InitModule("cld", CLDMethods);
   if (m == NULL) {
     return;
   }
+#endif
+
 
   // Set module-global ENCODINGS tuple:
   PyObject* pyEncs = PyTuple_New(NUM_ENCODINGS);
   for(int encIDX=0;encIDX<NUM_ENCODINGS;encIDX++) {
-    PyTuple_SET_ITEM(pyEncs, encIDX, PyString_FromString(cld_encoding_info[encIDX].name));
+    PyTuple_SET_ITEM(pyEncs, encIDX, PYSTR(cld_encoding_info[encIDX].name));
   }
   // Steals ref:
   PyModule_AddObject(m, "ENCODINGS", pyEncs);
@@ -184,82 +218,82 @@ initcld() {
   // test!!  It has all languages ever detected by the test
 
   PyObject* pyDetLangs = PyTuple_New(75);
-  PyTuple_SET_ITEM(pyDetLangs, 0, PyString_FromString("AFRIKAANS"));
-  PyTuple_SET_ITEM(pyDetLangs, 1, PyString_FromString("ALBANIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 2, PyString_FromString("AMHARIC"));
-  PyTuple_SET_ITEM(pyDetLangs, 3, PyString_FromString("ARABIC"));
-  PyTuple_SET_ITEM(pyDetLangs, 4, PyString_FromString("ARMENIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 5, PyString_FromString("AZERBAIJANI"));
-  PyTuple_SET_ITEM(pyDetLangs, 6, PyString_FromString("BASQUE"));
-  PyTuple_SET_ITEM(pyDetLangs, 7, PyString_FromString("BELARUSIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 8, PyString_FromString("BENGALI"));
-  PyTuple_SET_ITEM(pyDetLangs, 9, PyString_FromString("BULGARIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 10, PyString_FromString("BURMESE"));
-  PyTuple_SET_ITEM(pyDetLangs, 11, PyString_FromString("CATALAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 12, PyString_FromString("CHEROKEE"));
-  PyTuple_SET_ITEM(pyDetLangs, 13, PyString_FromString("CROATIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 14, PyString_FromString("CZECH"));
-  PyTuple_SET_ITEM(pyDetLangs, 15, PyString_FromString("Chinese"));
-  PyTuple_SET_ITEM(pyDetLangs, 16, PyString_FromString("ChineseT"));
-  PyTuple_SET_ITEM(pyDetLangs, 17, PyString_FromString("DANISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 18, PyString_FromString("DHIVEHI"));
-  PyTuple_SET_ITEM(pyDetLangs, 19, PyString_FromString("DUTCH"));
-  PyTuple_SET_ITEM(pyDetLangs, 20, PyString_FromString("ENGLISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 21, PyString_FromString("ESTONIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 22, PyString_FromString("FINNISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 23, PyString_FromString("FRENCH"));
-  PyTuple_SET_ITEM(pyDetLangs, 23, PyString_FromString("GALICIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 24, PyString_FromString("GEORGIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 25, PyString_FromString("GERMAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 26, PyString_FromString("GREEK"));
-  PyTuple_SET_ITEM(pyDetLangs, 27, PyString_FromString("GUJARATI"));
-  PyTuple_SET_ITEM(pyDetLangs, 28, PyString_FromString("HAITIAN_CREOLE"));
-  PyTuple_SET_ITEM(pyDetLangs, 29, PyString_FromString("HEBREW"));
-  PyTuple_SET_ITEM(pyDetLangs, 30, PyString_FromString("HINDI"));
-  PyTuple_SET_ITEM(pyDetLangs, 31, PyString_FromString("HUNGARIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 32, PyString_FromString("ICELANDIC"));
-  PyTuple_SET_ITEM(pyDetLangs, 33, PyString_FromString("INDONESIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 34, PyString_FromString("INUKTITUT"));
-  PyTuple_SET_ITEM(pyDetLangs, 35, PyString_FromString("IRISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 36, PyString_FromString("ITALIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 37, PyString_FromString("Japanese"));
-  PyTuple_SET_ITEM(pyDetLangs, 38, PyString_FromString("KANNADA"));
-  PyTuple_SET_ITEM(pyDetLangs, 39, PyString_FromString("KHMER"));
-  PyTuple_SET_ITEM(pyDetLangs, 40, PyString_FromString("Korean"));
-  PyTuple_SET_ITEM(pyDetLangs, 41, PyString_FromString("LAOTHIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 42, PyString_FromString("LATVIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 43, PyString_FromString("LITHUANIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 44, PyString_FromString("MACEDONIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 45, PyString_FromString("MALAY"));
-  PyTuple_SET_ITEM(pyDetLangs, 46, PyString_FromString("MALAYALAM"));
-  PyTuple_SET_ITEM(pyDetLangs, 47, PyString_FromString("MALTESE"));
-  PyTuple_SET_ITEM(pyDetLangs, 48, PyString_FromString("NORWEGIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 49, PyString_FromString("ORIYA"));
-  PyTuple_SET_ITEM(pyDetLangs, 50, PyString_FromString("PERSIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 51, PyString_FromString("POLISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 52, PyString_FromString("PORTUGUESE"));
-  PyTuple_SET_ITEM(pyDetLangs, 53, PyString_FromString("PUNJABI"));
-  PyTuple_SET_ITEM(pyDetLangs, 54, PyString_FromString("ROMANIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 55, PyString_FromString("RUSSIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 56, PyString_FromString("SERBIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 57, PyString_FromString("SINHALESE"));
-  PyTuple_SET_ITEM(pyDetLangs, 58, PyString_FromString("SLOVAK"));
-  PyTuple_SET_ITEM(pyDetLangs, 59, PyString_FromString("SLOVENIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 60, PyString_FromString("SPANISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 61, PyString_FromString("SWAHILI"));
-  PyTuple_SET_ITEM(pyDetLangs, 62, PyString_FromString("SWEDISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 63, PyString_FromString("SYRIAC"));
-  PyTuple_SET_ITEM(pyDetLangs, 64, PyString_FromString("TAGALOG"));
-  PyTuple_SET_ITEM(pyDetLangs, 65, PyString_FromString("TAMIL"));
-  PyTuple_SET_ITEM(pyDetLangs, 66, PyString_FromString("TELUGU"));
-  PyTuple_SET_ITEM(pyDetLangs, 67, PyString_FromString("THAI"));
-  PyTuple_SET_ITEM(pyDetLangs, 68, PyString_FromString("TIBETAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 69, PyString_FromString("TURKISH"));
-  PyTuple_SET_ITEM(pyDetLangs, 70, PyString_FromString("UKRAINIAN"));
-  PyTuple_SET_ITEM(pyDetLangs, 71, PyString_FromString("URDU"));
-  PyTuple_SET_ITEM(pyDetLangs, 72, PyString_FromString("VIETNAMESE"));
-  PyTuple_SET_ITEM(pyDetLangs, 73, PyString_FromString("WELSH"));
-  PyTuple_SET_ITEM(pyDetLangs, 74, PyString_FromString("YIDDISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 0, PYSTR("AFRIKAANS"));
+  PyTuple_SET_ITEM(pyDetLangs, 1, PYSTR("ALBANIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 2, PYSTR("AMHARIC"));
+  PyTuple_SET_ITEM(pyDetLangs, 3, PYSTR("ARABIC"));
+  PyTuple_SET_ITEM(pyDetLangs, 4, PYSTR("ARMENIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 5, PYSTR("AZERBAIJANI"));
+  PyTuple_SET_ITEM(pyDetLangs, 6, PYSTR("BASQUE"));
+  PyTuple_SET_ITEM(pyDetLangs, 7, PYSTR("BELARUSIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 8, PYSTR("BENGALI"));
+  PyTuple_SET_ITEM(pyDetLangs, 9, PYSTR("BULGARIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 10, PYSTR("BURMESE"));
+  PyTuple_SET_ITEM(pyDetLangs, 11, PYSTR("CATALAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 12, PYSTR("CHEROKEE"));
+  PyTuple_SET_ITEM(pyDetLangs, 13, PYSTR("CROATIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 14, PYSTR("CZECH"));
+  PyTuple_SET_ITEM(pyDetLangs, 15, PYSTR("Chinese"));
+  PyTuple_SET_ITEM(pyDetLangs, 16, PYSTR("ChineseT"));
+  PyTuple_SET_ITEM(pyDetLangs, 17, PYSTR("DANISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 18, PYSTR("DHIVEHI"));
+  PyTuple_SET_ITEM(pyDetLangs, 19, PYSTR("DUTCH"));
+  PyTuple_SET_ITEM(pyDetLangs, 20, PYSTR("ENGLISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 21, PYSTR("ESTONIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 22, PYSTR("FINNISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 23, PYSTR("FRENCH"));
+  PyTuple_SET_ITEM(pyDetLangs, 23, PYSTR("GALICIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 24, PYSTR("GEORGIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 25, PYSTR("GERMAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 26, PYSTR("GREEK"));
+  PyTuple_SET_ITEM(pyDetLangs, 27, PYSTR("GUJARATI"));
+  PyTuple_SET_ITEM(pyDetLangs, 28, PYSTR("HAITIAN_CREOLE"));
+  PyTuple_SET_ITEM(pyDetLangs, 29, PYSTR("HEBREW"));
+  PyTuple_SET_ITEM(pyDetLangs, 30, PYSTR("HINDI"));
+  PyTuple_SET_ITEM(pyDetLangs, 31, PYSTR("HUNGARIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 32, PYSTR("ICELANDIC"));
+  PyTuple_SET_ITEM(pyDetLangs, 33, PYSTR("INDONESIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 34, PYSTR("INUKTITUT"));
+  PyTuple_SET_ITEM(pyDetLangs, 35, PYSTR("IRISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 36, PYSTR("ITALIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 37, PYSTR("Japanese"));
+  PyTuple_SET_ITEM(pyDetLangs, 38, PYSTR("KANNADA"));
+  PyTuple_SET_ITEM(pyDetLangs, 39, PYSTR("KHMER"));
+  PyTuple_SET_ITEM(pyDetLangs, 40, PYSTR("Korean"));
+  PyTuple_SET_ITEM(pyDetLangs, 41, PYSTR("LAOTHIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 42, PYSTR("LATVIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 43, PYSTR("LITHUANIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 44, PYSTR("MACEDONIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 45, PYSTR("MALAY"));
+  PyTuple_SET_ITEM(pyDetLangs, 46, PYSTR("MALAYALAM"));
+  PyTuple_SET_ITEM(pyDetLangs, 47, PYSTR("MALTESE"));
+  PyTuple_SET_ITEM(pyDetLangs, 48, PYSTR("NORWEGIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 49, PYSTR("ORIYA"));
+  PyTuple_SET_ITEM(pyDetLangs, 50, PYSTR("PERSIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 51, PYSTR("POLISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 52, PYSTR("PORTUGUESE"));
+  PyTuple_SET_ITEM(pyDetLangs, 53, PYSTR("PUNJABI"));
+  PyTuple_SET_ITEM(pyDetLangs, 54, PYSTR("ROMANIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 55, PYSTR("RUSSIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 56, PYSTR("SERBIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 57, PYSTR("SINHALESE"));
+  PyTuple_SET_ITEM(pyDetLangs, 58, PYSTR("SLOVAK"));
+  PyTuple_SET_ITEM(pyDetLangs, 59, PYSTR("SLOVENIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 60, PYSTR("SPANISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 61, PYSTR("SWAHILI"));
+  PyTuple_SET_ITEM(pyDetLangs, 62, PYSTR("SWEDISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 63, PYSTR("SYRIAC"));
+  PyTuple_SET_ITEM(pyDetLangs, 64, PYSTR("TAGALOG"));
+  PyTuple_SET_ITEM(pyDetLangs, 65, PYSTR("TAMIL"));
+  PyTuple_SET_ITEM(pyDetLangs, 66, PYSTR("TELUGU"));
+  PyTuple_SET_ITEM(pyDetLangs, 67, PYSTR("THAI"));
+  PyTuple_SET_ITEM(pyDetLangs, 68, PYSTR("TIBETAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 69, PYSTR("TURKISH"));
+  PyTuple_SET_ITEM(pyDetLangs, 70, PYSTR("UKRAINIAN"));
+  PyTuple_SET_ITEM(pyDetLangs, 71, PYSTR("URDU"));
+  PyTuple_SET_ITEM(pyDetLangs, 72, PYSTR("VIETNAMESE"));
+  PyTuple_SET_ITEM(pyDetLangs, 73, PYSTR("WELSH"));
+  PyTuple_SET_ITEM(pyDetLangs, 74, PYSTR("YIDDISH"));
 
   // Steals ref:
   PyModule_AddObject(m, "DETECTED_LANGUAGES", pyDetLangs);
@@ -267,4 +301,8 @@ initcld() {
   CLDError = PyErr_NewException((char *) "cld.error", NULL, NULL);
   // Steals ref:
   PyModule_AddObject(m, "error", CLDError);
+
+#if PY_MAJOR_VERSION >= 3
+  return m;
+#endif
 }

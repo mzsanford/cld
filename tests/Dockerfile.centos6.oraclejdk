@@ -14,9 +14,9 @@ ENV    PATH    $M2:$PATH
 # Install Oracle JDK 8u31
 RUN cd /tmp && \
     mkdir /srv/java && \
-    curl -L -O -H "Cookie: oraclelicense=accept-securebackup-cookie" -k "http://download.oracle.com/otn-pub/java/jdk/8u31-b13/jdk-8u31-linux-x64.tar.gz" && \
-    tar xf jdk-8u31-linux-x64.tar.gz -C /srv/java && \
-    rm -f jdk-8u31-linux-x64.tar.gz && \
+    wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz" && \
+    tar xf jdk-8u171-linux-x64.tar.gz -C /srv/java && \
+    rm -f jdk-8u171-linux-x64.tar.gz && \
     ln -s /srv/java/jdk* /srv/java/jdk && \
     ln -s /srv/java/jdk /srv/java/jvm
 

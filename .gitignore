@@ -9,6 +9,7 @@ autom4te.cache
 Makefile
 /tests/Makefile
 libtool
+.vscode
 
 
 # Ports (node)

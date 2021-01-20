@@ -16,7 +16,9 @@ The shared C++ library can be built from source using the following commands:
 
     $ git clone git://github.com/mzsanford/cld.git
     $ cd cld
+    $ libtoolize
     $ ./configure
+    $ automake --add-missing
     $ make
     $ make check # optional. Runs the tests
 
